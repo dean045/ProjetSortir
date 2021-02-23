@@ -36,7 +36,8 @@
                 </ul>
                 {% else %}
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="{{ url('app_logout') }}"><span class="glyphicon glyphicon-log-in"></span>Déconnection</a></li>
+                    <li><a href="{{ url('inscription') }}"><span class="glyphicon glyphicon-plus-sign"></span> Ajouter un utilisateur</a></li>
+                    <li><a href="{{ url('app_logout') }}"><span class="glyphicon glyphicon-log-out"></span> Déconnection</a></li>
                 </ul>
                 {% endif %}
             </div>
