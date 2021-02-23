@@ -1,0 +1,22 @@
+{% extends'base.html.twig' %}
+
+{% block body %}
+
+    <div>
+        <p>Pseudo : {{ app.user.username }}</p>
+        <p>Nom : {{ app.user.nom }}</p>
+        <p>Prénom : {{ app.user.prenom }}</p>
+        <p>Téléphone : {{ app.user.telephone }}</p>
+        <p>Email : {{ app.user.mail }}</p>
+
+{#      {% for category in ad.categories %}#}
+{#      <p>{{ category }}</p>#}
+{#      {% endfor %}#}
+    </div>
+
+    <div>
+        <a href="{{ url('modification') }}" class="card-link">Modifier</a>
+    </div>
+
+
+{% endblock %}
