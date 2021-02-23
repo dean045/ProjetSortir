@@ -79,15 +79,16 @@ class User implements UserInterface
     private $sorties;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Inscriptions::class, mappedBy="participant")
+     * @ORM\ManyToMany(targetEntity=Sortie::class, mappedBy="participants")
      */
-    private $inscriptions;
+    private $participations;
 
 
     public function __construct()
     {
         $this->sorties = new ArrayCollection();
         $this->inscriptions = new ArrayCollection();
+        $this->participations = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -286,27 +287,27 @@ class User implements UserInterface
     }
 
     /**
-     * @return Collection|Inscriptions[]
+     * @return Collection|Sortie[]
      */
-    public function getInscriptions(): Collection
+    public function getParticipations(): Collection
     {
-        return $this->inscriptions;
+        return $this->participations;
     }
 
-    public function addInscription(Inscriptions $inscription): self
+    public function addParticipation(Sortie $participation): self
     {
-        if (!$this->inscriptions->contains($inscription)) {
-            $this->inscriptions[] = $inscription;
-            $inscription->addParticipant($this);
+        if (!$this->participations->contains($participation)) {
+            $this->participations[] = $participation;
+            $participation->addParticipant($this);
         }
 
         return $this;
     }
 
-    public function removeInscription(Inscriptions $inscription): self
+    public function removeParticipation(Sortie $participation): self
     {
-        if ($this->inscriptions->removeElement($inscription)) {
-            $inscription->removeParticipant($this);
+        if ($this->participations->removeElement($participation)) {
+            $participation->removeParticipant($this);
         }
 
         return $this;
