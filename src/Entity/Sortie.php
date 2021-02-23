@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\SortieRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -62,6 +64,16 @@ class Sortie
      * @ORM\JoinColumn(nullable=false)
      */
     private $organisateur;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Inscriptions::class, mappedBy="sortie")
+     */
+    private $inscriptions;
+
+    public function __construct()
+    {
+        $this->inscriptions = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -172,6 +184,36 @@ class Sortie
     public function setOrganisateur(?User $organisateur): self
     {
         $this->organisateur = $organisateur;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Inscriptions[]
+     */
+    public function getInscriptions(): Collection
+    {
+        return $this->inscriptions;
+    }
+
+    public function addInscription(Inscriptions $inscription): self
+    {
+        if (!$this->inscriptions->contains($inscription)) {
+            $this->inscriptions[] = $inscription;
+            $inscription->setSortie($this);
+        }
+
+        return $this;
+    }
+
+    public function removeInscription(Inscriptions $inscription): self
+    {
+        if ($this->inscriptions->removeElement($inscription)) {
+            // set the owning side to null (unless already changed)
+            if ($inscription->getSortie() === $this) {
+                $inscription->setSortie(null);
+            }
+        }
 
         return $this;
     }

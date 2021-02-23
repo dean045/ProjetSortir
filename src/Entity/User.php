@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
@@ -30,6 +31,11 @@ class User implements UserInterface
      * @ORM\Column(type="json")
      */
     private $roles = [];
+
+    /**
+     * @Assert\NotBlank()
+     */
+    private $plainPassword;
 
     /**
      * @var string The hashed password
@@ -72,9 +78,16 @@ class User implements UserInterface
      */
     private $sorties;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Inscriptions::class, mappedBy="participant")
+     */
+    private $inscriptions;
+
+
     public function __construct()
     {
         $this->sorties = new ArrayCollection();
+        $this->inscriptions = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -124,6 +137,23 @@ class User implements UserInterface
     public function getPassword(): string
     {
         return (string) $this->password;
+    }
+
+    /**
+     * @return mixed $plainPassword
+     */
+
+    public function getPlainPassword()
+    {
+        return $this->plainPassword;
+    }
+    /**
+     * @return mixed $plainPassword
+     */
+
+    public function setPlainPassword($plainPassword)
+    {
+        $this->plainPassword = $plainPassword;
     }
 
     public function setPassword(string $password): self
@@ -254,4 +284,32 @@ class User implements UserInterface
 
         return $this;
     }
+
+    /**
+     * @return Collection|Inscriptions[]
+     */
+    public function getInscriptions(): Collection
+    {
+        return $this->inscriptions;
+    }
+
+    public function addInscription(Inscriptions $inscription): self
+    {
+        if (!$this->inscriptions->contains($inscription)) {
+            $this->inscriptions[] = $inscription;
+            $inscription->addParticipant($this);
+        }
+
+        return $this;
+    }
+
+    public function removeInscription(Inscriptions $inscription): self
+    {
+        if ($this->inscriptions->removeElement($inscription)) {
+            $inscription->removeParticipant($this);
+        }
+
+        return $this;
+    }
+
 }
