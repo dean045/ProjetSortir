@@ -14,10 +14,27 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class SortieRepository extends ServiceEntityRepository
 {
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Sortie::class);
     }
+
+    /*
+
+    /**
+     * @return Sortie[]
+
+    public function test(int $id) : array {
+        $em = $this -> getEntityManager();
+
+        $query = $em -> createQuery(
+        'SELECT * FROM App\Entity\Sortie
+        WHERE nom = Test'
+        )->setParameter('id', $id);
+        return $query->getResult();
+    }
+    */
 
     // /**
     //  * @return Sortie[] Returns an array of Sortie objects

@@ -73,6 +73,7 @@ class Sortie
     public function __construct()
     {
         $this->inscriptions = new ArrayCollection();
+        $this->etatsortie = 1;
     }
 
     public function getId(): ?int

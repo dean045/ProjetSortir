@@ -3,13 +3,19 @@
 namespace App\Form;
 
 use App\Entity\Sortie;
-use Doctrine\DBAL\Types\StringType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\TimeType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+
 
 class SortieType extends AbstractType
 {
@@ -20,29 +26,70 @@ class SortieType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+
         $builder
-            ->add('nom', StringType::class,[
-                'label' => 'Nom :',
-                'placeholder' => 'Votre nom',
+            ->add('nom', TextType::class,[
+                'label' => 'Nom de la sortie :',
+                'trim' => true,
+                'required' => true,
             ])
-            ->add('datedebut', DateTimeType::class,[
-                'label' => 'Date de début de sortie :',
-            ])
-            ->add('duree', IntegerType::class,[
-                'label' => 'Durée de la sortie :',
-                'placeholder' => 'Renseignez la durée en heures'
-            ])
-            ->add('dateLimiteInscription', \DateTime::class,[
-                'label' => 'Date limite d\'inscription :',
-            ])
-            ->add('nbinscriptionsmax', IntegerType::class,[
-                'label' => 'Nombre maximum de participants :'
-            ])
-            ->add('description', TextType::class,[
+
+            ->add('description', TextareaType::class,[
                 'label' => 'Description :',
-                'placeholder' => 'Décrivez tous les détails de votre événement ',
+                'trim' => true,
+                'required' => true,
             ])
-            ->add('urlphoto');
+
+            ->add('datedebut', DateType::class,[
+                'label' => 'Date de début de sortie :',
+                'required' => true,
+                'widget' => 'single_text',
+            ])
+
+            ->add('timedebut', TimeType::class, [
+                'label' => 'Heure de début : ',
+                'mapped' => false,
+                'widget' => 'single_text'
+            ])
+
+            ->add('duree', IntegerType::class,[
+                'label' => 'Durée de la sortie (en heures) :',
+                'required' => true,
+            ])
+
+            ->add('dateLimiteInscription', DateType::class,[
+                'label' => 'Date limite d\'inscription :',
+                'required' => true,
+                'widget' => 'single_text',
+            ])
+
+            ->add('timelimite', TimeType::class, [
+                'label' => 'Heure limite d\'inscription :',
+                'mapped' => false,
+                'widget' => 'single_text',
+            ])
+
+            ->add('nbinscriptionsmax', IntegerType::class,[
+                'label' => 'Nombre maximum de participants :',
+                'required' => true,
+            ])
+            ->add('submit', SubmitType::class, [
+                'label' => 'Publier une sortie',
+            ])
+
+            /* TODO:Gérer l'upload/affichage d'une photo
+            ->add('urlphoto')
+            */
+
+            ->addEventListener(FormEvents::POST_SET_DATA,
+                function (FormEvent $event){
+                $s = $event->getData();
+                $form = $event->getForm();
+
+                if($s->getDatedebut() !== null){
+                    $form->get('timedebut')->setData($s->getDateDebut());
+                }
+            });
     }
 
     public function configureOptions(OptionsResolver $resolver)

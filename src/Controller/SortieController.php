@@ -5,34 +5,68 @@ namespace App\Controller;
 use App\Entity\Sortie;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route(path="Sortie/")
+ * @Route(path="sortie/")
  */
 class SortieController extends AbstractController
 {
     /**
-     * @Route(path="Creer", name="creersortie")
+     * @Route(path="creer", name="creersortie", methods={"GET", "POST"})
      */
-    public function index(EntityManagerInterface $em)
+    public function add(Request $request, EntityManagerInterface $em)
     {
+        // Initialiser l'objet mappé au formulaire
+        $sortie = new Sortie();
+
+        // Dates débutant à la date et l'heure du moment
+        $sortie->setDateDebut(new \DateTime());
+
+        $sortie->setDateLimiteInscription(new \DateTime());
+
+        // ID de l'user
+        $sortie->setOrganisateur($this->getUser());
+
+        // Création du formulaire
+        $form = $this->createForm('App\Form\SortieType', $sortie);
+
+        // Récup des données de la requête HTTP au formulaire
+        $form->handleRequest($request);
+
+        // Vérification de la soumission du formulaire
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            // Insertion de l'objet en BDD
+            $em->persist($sortie);
+
+            // Validation de la transaction
+            $em->flush();
+
+            // Ajout d'un message de confirmation
+            $this->addFlash('success', 'Votre sortie a été postée avec succès!');
+
+            //Redirection sur la page de détails
+            return $this->redirectToRoute('detailsortie');
+        }
+
+        // Affichage du formulaire
         return $this->render('sortie/creersortie.html.twig', [
-            'controller_name' => 'SortieController',
+            'SortieForm' => $form->createView()
         ]);
     }
 
-    public function add()
-    {
-        //TODO : ajouter le formulaire
-        $sortie = new Sortie();
-        return $this->render('sortie/creersortie.html.twig', [
-            'controller_name' => 'SortieController',
-            ]);
+        /**
+         * @Route(name="detailsortie", path="{id}", requirements={"id": "\d+"}, methods={"GET"})
+         */
+        public function details(Request $request, EntityManagerInterface $em)
+        {
+            $id = $request -> get('id');
 
+            $sortie = $em -> getRepository('App:Sortie')->getById($id);
 
-    }
-
-
+            return $this->render('sortie/detailsortie.html.twig', ['sortie' => $sortie]);
+        }
 }
