@@ -15,8 +15,17 @@ class ListeController extends AbstractController
      */
     public function index(Request $request, EntityManagerInterface $em)
     {
-        $liste = $em -> getRepository('App:Sortie')->findAll();
-        return $this->render('liste/index.html.twig', [
-            'liste' => $liste]);
+        if ($this->isGranted('ROLE_USER')) {
+            $user = $this->getUser();
+            $liste = $em -> getRepository('App:Sortie')->findAll();
+            return $this->render('liste/index.html.twig', [
+                'liste' => $liste,]);
+        }
+        else
+        {
+            return $this->redirectToRoute('app_login');
+        }
+
     }
+
 }

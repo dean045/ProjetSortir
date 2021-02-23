@@ -66,14 +66,15 @@ class Sortie
     private $organisateur;
 
     /**
-     * @ORM\OneToMany(targetEntity=Inscriptions::class, mappedBy="sortie")
+     * @ORM\ManyToMany(targetEntity=User::class, inversedBy="participations")
      */
-    private $inscriptions;
+    private $participants;
+
 
     public function __construct()
     {
         $this->inscriptions = new ArrayCollection();
-        $this->etatsortie = 1;
+        $this->participants = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -190,32 +191,27 @@ class Sortie
     }
 
     /**
-     * @return Collection|Inscriptions[]
+     * @return Collection|User[]
      */
-    public function getInscriptions(): Collection
+    public function getParticipants(): Collection
     {
-        return $this->inscriptions;
+        return $this->participants;
     }
 
-    public function addInscription(Inscriptions $inscription): self
+    public function addParticipant(User $participant): self
     {
-        if (!$this->inscriptions->contains($inscription)) {
-            $this->inscriptions[] = $inscription;
-            $inscription->setSortie($this);
+        if (!$this->participants->contains($participant)) {
+            $this->participants[] = $participant;
         }
 
         return $this;
     }
 
-    public function removeInscription(Inscriptions $inscription): self
+    public function removeParticipant(User $participant): self
     {
-        if ($this->inscriptions->removeElement($inscription)) {
-            // set the owning side to null (unless already changed)
-            if ($inscription->getSortie() === $this) {
-                $inscription->setSortie(null);
-            }
-        }
+        $this->participants->removeElement($participant);
 
         return $this;
     }
+
 }

@@ -10,17 +10,17 @@
 
 <div class="example-wrapper">
     <h1 style="text-align: center">Liste des sorties programmées </h1>
-    <table class="border">
+    <table class="border" style="text-align: center">
         <thead>
-        <tr style="border: solid;">
-            <th style="border: solid;" style="border: solid;" colspan="1">Nom de la sortie</th>
-            <th style="border: solid;" colspan="1">Date de la sortie</th>
-            <th style="border: solid;" colspan="1">Cloture</th>
-            <th style="border: solid;" colspan="1">inscrits/places</th>
-            <th style="border: solid;" colspan="1">Etat</th>
-            <th style="border: solid;" colspan="1">Inscrit</th>
-            <th style="border: solid;" colspan="1">Organisateur</th>
-            <th style="border: solid;" colspan="1">Actions</th>
+        <tr style="border: solid; ">
+            <th style="border: solid; text-align: center" style="border: solid;" colspan="1">Nom de la sortie</th>
+            <th style="border: solid; text-align: center" colspan="1">Date de la sortie</th>
+            <th style="border: solid; text-align: center" colspan="1">Cloture</th>
+            <th style="border: solid; text-align: center" colspan="1">inscrits/places</th>
+            <th style="border: solid; text-align: center" colspan="1">Etat</th>
+            <th style="border: solid; text-align: center" colspan="1">Inscrit</th>
+            <th style="border: solid; text-align: center" colspan="1">Organisateur</th>
+            <th style="border: solid; text-align: center" colspan="2">Actions</th>
         </tr>
         </thead>
         <tbody>
@@ -29,10 +29,19 @@
                 <td style="border: solid;">{{ sortie.nom }}</td>
                 <td style="border: solid;">{{ sortie.datedebut|date('d/m/Y H:i') }}</td>
                 <td style="border: solid;">{{ sortie.dateLimiteInscription|date('d/m/Y H:i') }}</td>
-                <td style="border: solid;">{{ "inscrit/"~sortie.nbinscriptionsmax }}</td>
+                <td style="border: solid;">{{ sortie.participants|length~"/"~sortie.nbinscriptionsmax }}</td>
                 <td style="border: solid;">{{ sortie.etatsortie }}</td>
-                <td style="border: solid;"></td>
+                <td style="border: solid;">
+                    {% if app.user in sortie.participants %}
+                        X
+                    {% endif %}
+                </td>
                 <td style="border: solid;">{{ sortie.organisateur.username }}</td>
+                {% if app.user in sortie.participants %}
+                    <td style="border: solid;"><a href="/sedesister/{{sortie.id}}">Se désister</a></td>
+                {% else %}
+                <td style="border: solid;"><a href="/participer/{{sortie.id}}">S'inscrire</a></td>
+                {% endif %}
                 <td style="border: solid;"><a>Afficher</a></td>
             </tr>
         {% endfor %}
