@@ -40,6 +40,14 @@
                     <li><a href="{{ url('app_logout') }}"><span class="glyphicon glyphicon-log-out"></span> Déconnection</a></li>
                 </ul>
                 {% endif %}
+
+                {% if app.user is null %}
+                {% else %}
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="{{ url('profil') }}"><span class="glyphicon glyphicon-user"></span> Mon profil</a></li>
+                    </ul>
+                {% endif %}
+
             </div>
         </nav>
     </header>
