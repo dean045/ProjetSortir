@@ -26,7 +26,7 @@ class SortieController extends AbstractController
     public function add()
     {
         //TODO : ajouter le formulaire
-        $sortie => new Sortie();
+        $sortie = new Sortie();
         return $this->render('sortie/creersortie.html.twig', [
             'controller_name' => 'SortieController',
             ]);
