@@ -75,6 +75,7 @@ class Sortie
     {
         $this->inscriptions = new ArrayCollection();
         $this->participants = new ArrayCollection();
+        $this->etatsortie = 1;
     }
 
     public function getId(): ?int
