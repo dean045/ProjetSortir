@@ -29,9 +29,16 @@
                     <!-- <li><a href="#">Page 1</a></li>
                     <li><a href="#">Page 2</a></li> -->
                 </ul>
+
+                {% if app.user is null %}
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="#"><span class="glyphicon glyphicon-log-in"></span>Connexion</a></li>
+                    <li><a href="{{ url('app_login') }}"><span class="glyphicon glyphicon-log-in"></span>Connection</a></li>
                 </ul>
+                {% else %}
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="{{ url('app_logout') }}"><span class="glyphicon glyphicon-log-in"></span>Déconnection</a></li>
+                </ul>
+                {% endif %}
             </div>
         </nav>
     </header>
