@@ -3,51 +3,181 @@
 {% block title %}Liste{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
 
-<div class="example-wrapper">
-    <h1 style="text-align: center">Liste des sorties programmées </h1>
-    <table class="border" style="text-align: center">
-        <thead>
-        <tr style="border: solid; ">
-            <th style="border: solid; text-align: center" style="border: solid;" colspan="1">Nom de la sortie</th>
-            <th style="border: solid; text-align: center" colspan="1">Date de la sortie</th>
-            <th style="border: solid; text-align: center" colspan="1">Cloture</th>
-            <th style="border: solid; text-align: center" colspan="1">inscrits/places</th>
-            <th style="border: solid; text-align: center" colspan="1">Etat</th>
-            <th style="border: solid; text-align: center" colspan="1">Inscrit</th>
-            <th style="border: solid; text-align: center" colspan="1">Organisateur</th>
-            <th style="border: solid; text-align: center" colspan="2">Actions</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for sortie in liste %}
+    <div class="container d-flex">
+        <div class="col-5">
+            <label>Nom de la sortie :</label>
+            <input type="text" id="myInput" onkeyup="tri()" placeholder="rechercher">
+        </div>
+        <div class="col-5">
+            <div>
+                <input type="checkbox" checked id="organisateur" onclick="tri()">
+                <label for="organisateur">Sorti dont je suis l'organisateur</label>
+            </div>
+            <div>
+                <input type="checkbox" checked id="inscrit" onclick="tri()">
+                <label for="inscrit">Sorti auquelles je suis inscrit/e</label>
+            </div>
+            <div>
+                <input type="checkbox" checked id="non_inscrit" onclick="tri()">
+                <label for="non_inscrit">Sorti auquelles je ne suis pas inscrit/e</label>
+            </div>
+        </div>
+    </div>
+
+    <div>
+        <h1 style="text-align: center">Liste des sorties programmées </h1>
+        <table style="width: 80%;text-align: center" class="m-auto border table table-hover">
+            <thead>
             <tr>
-                <td style="border: solid;">{{ sortie.nom }}</td>
-                <td style="border: solid;">{{ sortie.datedebut|date('d/m/Y H:i') }}</td>
-                <td style="border: solid;">{{ sortie.dateLimiteInscription|date('d/m/Y H:i') }}</td>
-                <td style="border: solid;">{{ sortie.participants|length~"/"~sortie.nbinscriptionsmax }}</td>
-                <td style="border: solid;">{{ sortie.etatsortie }}</td>
-                <td style="border: solid;">
-                    {% if app.user in sortie.participants %}
-                        X
-                    {% endif %}
-                </td>
-                <td style="border: solid;">{{ sortie.organisateur.username }}</td>
-                {% if app.user in sortie.participants %}
-                    <td style="border: solid;"><a href="/sedesister/{{sortie.id}}">Se désister</a></td>
-                {% else %}
-                <td style="border: solid;"><a href="/participer/{{sortie.id}}">S'inscrire</a></td>
-                {% endif %}
-                <td style="border: solid;"><a href="sortie/detailsortie/{{sortie.id}}">Afficher</a></td>
+                <th scope="col">Nom de la sortie</th>
+                <th scope="col">Date de la sortie</th>
+                <th scope="col">Cloture</th>
+                <th scope="col">inscrits/places</th>
+                <th scope="col">Etat</th>
+                <th scope="col">Inscrit</th>
+                <th scope="col">Organisateur</th>
+                <th scope="col" colspan="2" style="text-align: center">Actions</th>
             </tr>
-        {% endfor %}
+            </thead>
+            <tbody id="myTable">
+            {% for sortie in liste %}
+                <tr>
+                    <td scope="row">{{ sortie.nom }}</td>
+                    <td>{{ sortie.datedebut|date('d/m/Y H:i') }}</td>
+                    <td>{{ sortie.dateLimiteInscription|date('d/m/Y H:i') }}</td>
+                    <td>{{ sortie.participants|length~"/"~sortie.nbinscriptionsmax }}</td>
+                    <td>{{ sortie.etatsortie }}</td>
+                    <td>{% if app.user in sortie.participants %}X{% endif %}</td>
+                    <td>{{ sortie.organisateur.username }}</td>
+                    {% if app.user in sortie.participants %}
+                        <td><a href="/sedesister/{{ sortie.id }}">Se désister</a></td>
+                    {% else %}
+                        <td><a href="/participer/{{ sortie.id }}">S'inscrire</a></td>
+                    {% endif %}
+                    <td><a href="sortie/detailsortie/{{ sortie.id }}">Afficher</a></td>
+                </tr>
+            {% endfor %}
 
-        </tbody>
-    </table>
+            </tbody>
+        </table>
+        <script>
+            /*
+            function recherche() {
+                var input, filter, table, tr, td, i, txtValue;
+                input = document.getElementById("myInput");
+                filter = input.value.toUpperCase();
+                table = document.getElementById("myTable");
+                tr = table.getElementsByTagName("tr");
+                for (i = 0; i < tr.length; i++) {
+                    td = tr[i].getElementsByTagName("td")[0];
+                    if (td) {
+                        txtValue = td.textContent || td.innerText;
+                        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                            tr[i].style.display = "";
+                        } else {
+                            tr[i].style.display = "none";
+                        }
+                    }
+                }
+            }*/
 
-</div>
+            function tri() {
+                let table, td, tr, i;
+                let input = document.getElementById("myInput");
+                let filter = input.value.toUpperCase();
+                let non_inscrit = document.getElementById("non_inscrit");
+                let inscrit = document.getElementById("inscrit");
+                let organisateur = document.getElementById("organisateur");
+                table = document.getElementById("myTable");
+                tr = table.getElementsByTagName("tr");
+                if (organisateur.checked && non_inscrit.checked && inscrit.checked) {
+                    for (i = 0; i < tr.length; i++) {
+                        tr[i].style.display = "";
+                    }
+                } else if (organisateur.checked && non_inscrit.checked === false && inscrit.checked) {
+                    for (i = 0; i < tr.length; i++) {
+                        let t_inscrit = tr[i].getElementsByTagName("td")[5];
+                        let t_org = tr[i].getElementsByTagName("td")[6];
+                        if (t_inscrit && t_org) {
+                            let inscrit_value = t_inscrit.textContent || t_inscrit.innerText;
+                            let org_value = t_org.textContent || t_org.innerText;
+                            if (inscrit_value === "X" || org_value === "{{ app.user.username }}") {
+                                tr[i].style.display = "";
+                            } else tr[i].style.display = "none";
+                        }
+                    }
+                } else if (organisateur.checked && non_inscrit.checked && inscrit.checked === false) {
+                    for (i = 0; i < tr.length; i++) {
+                        let t_inscrit = tr[i].getElementsByTagName("td")[5];
+                        let t_org = tr[i].getElementsByTagName("td")[6];
+                        if (t_inscrit && t_org) {
+                            let inscrit_value = t_inscrit.textContent || t_inscrit.innerText;
+                            let org_value = t_org.textContent || t_org.innerText;
+                            if (inscrit_value === "" || org_value === "{{ app.user.username }}") {
+                                tr[i].style.display = "";
+                            } else tr[i].style.display = "none";
+                        }
+                    }
+                } else if (organisateur.checked === false && non_inscrit.checked && inscrit.checked) {
+                    for (i = 0; i < tr.length; i++) {
+                        tr[i].style.display = "";
+                    }
+                } else if (organisateur.checked && non_inscrit.checked === false && inscrit.checked === false) {
+                    for (i = 0; i < tr.length; i++) {
+                        let t_org = tr[i].getElementsByTagName("td")[6];
+                        if (t_org) {
+                            let org_value = t_org.textContent || t_org.innerText;
+                            if (org_value === "{{ app.user.username }}") {
+                                tr[i].style.display = "";
+                            } else tr[i].style.display = "none";
+                        }
+                    }
+                } else if (organisateur.checked === false && non_inscrit.checked && inscrit.checked === false) {
+                    for (i = 0; i < tr.length; i++) {
+                        let t_inscrit = tr[i].getElementsByTagName("td")[5];
+                        if (t_inscrit) {
+                            let inscrit_value = t_inscrit.textContent || t_inscrit.innerText;
+                            if (inscrit_value === "") {
+                                tr[i].style.display = "";
+                            } else tr[i].style.display = "none";
+                        }
+                    }
+                } else if (organisateur.checked === false && non_inscrit.checked === false && inscrit.checked) {
+                    for (i = 0; i < tr.length; i++) {
+                        let t_inscrit = tr[i].getElementsByTagName("td")[5];
+                        if (t_inscrit) {
+                            let inscrit_value = t_inscrit.textContent || t_inscrit.innerText;
+                            if (inscrit_value === "X") {
+                                tr[i].style.display = "";
+                            } else tr[i].style.display = "none";
+                        }
+                    }
+                } else {
+                    for (i = 0; i < tr.length; i++) {
+                        tr[i].style.display = "none";
+                    }
+                }
+
+
+                for (i = 0; i < tr.length; i++) {
+                    td = tr[i].getElementsByTagName("td")[0];
+                    let txtValue = td.textContent || td.innerText;
+                    if (txtValue && txtValue !== "") {
+                        if (td) {
+                            if (tr[i].style.display === "") {
+                                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                                    tr[i].style.display = "";
+                                } else {
+                                    tr[i].style.display = "none";
+                                }
+                            }
+                        }
+                    }
+                }
+
+            }
+
+        </script>
+    </div>
 {% endblock %}

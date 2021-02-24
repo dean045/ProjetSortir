@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Sortie;
 use Doctrine\ORM\EntityManagerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,6 +17,7 @@ class SortieController extends AbstractController
 {
     /**
      * @Route(path="creer", name="creersortie", methods={"GET", "POST"})
+     * @IsGranted("ROLE_ADMIN")
      */
     public function add(Request $request, EntityManagerInterface $em)
     {
