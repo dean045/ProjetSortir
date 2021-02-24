@@ -24,6 +24,7 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
+     *
      */
     private $username;
 
@@ -74,6 +75,12 @@ class User implements UserInterface
     private $actif;
 
     /**
+     * @var string|null
+     * @ORM\Column(type="string")
+     */
+    private $image;
+
+    /**
      * @ORM\OneToMany(targetEntity=Sortie::class, mappedBy="organisateur")
      */
     private $sorties;
@@ -82,6 +89,12 @@ class User implements UserInterface
      * @ORM\ManyToMany(targetEntity=Sortie::class, mappedBy="participants")
      */
     private $participations;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Site::class, inversedBy="Utilisateur")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $site;
 
 
     public function __construct()
@@ -309,6 +322,34 @@ class User implements UserInterface
         if ($this->participations->removeElement($participation)) {
             $participation->removeParticipant($this);
         }
+
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getImage(): ?string
+    {
+        return $this->image;
+    }
+
+    /**
+     * @param string|null $image
+     */
+    public function setImage(?string $image): void
+    {
+        $this->image = $image;
+    }
+
+    public function getSite(): ?Site
+    {
+        return $this->site;
+    }
+
+    public function setSite(?Site $site): self
+    {
+        $this->site = $site;
 
         return $this;
     }
