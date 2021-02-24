@@ -7,7 +7,10 @@
     Nom de la sortie : {{ sortie.nom }} <br>
     Description : {{ sortie.description }} <br>
     Date de début de sortie : {{ sortie.datedebut|date('d-m-Y H:i') }}<br>
-    Date limite d'inscription : {{ sortie.dateLimiteInscription|date('d-m-Y') }}<br>
-    Nombre maximum de participants : {{ sortie.nbinscriptionsmax }}
+    Date limite d'inscription : {{ sortie.dateLimiteInscription|date('d-m-Y H:i') }}<br>
+    Nombre maximum de participants : {{ sortie.nbinscriptionsmax }}<br>
+    <a href="modifiersortie/{{sortie.id}}" class="btn btn-primary">Modifier ma sortie</a>
+
+
 
 {% endblock %}

@@ -40,6 +40,15 @@ class SortieType extends AbstractType
                 'required' => true,
             ])
 
+            ->add('datedebut', DateTimeType::class,[
+                'label' => 'Date de début de sortie :',
+                'required' => true,
+                'date_widget' => 'single_text',
+                'time_widget' => 'single_text',
+            ])
+
+            /*
+
             ->add('datedebut', DateType::class,[
                 'label' => 'Date de début de sortie :',
                 'required' => true,
@@ -51,36 +60,46 @@ class SortieType extends AbstractType
                 'mapped' => false,
                 'widget' => 'single_text'
             ])
+*/
 
             ->add('duree', IntegerType::class,[
                 'label' => 'Durée de la sortie (en heures) :',
                 'required' => true,
             ])
 
-            ->add('dateLimiteInscription', DateType::class,[
+            ->add('dateLimiteInscription', DateTimeType::class,[
+                'label' => 'Date limite d\'inscription :',
+                'required' => true,
+                'date_widget' => 'single_text',
+                'time_widget' => 'single_text',
+            ])
+/*
+*           ->add('datelimite', DateType::class,[
                 'label' => 'Date limite d\'inscription :',
                 'required' => true,
                 'widget' => 'single_text',
             ])
-
             ->add('timelimite', TimeType::class, [
                 'label' => 'Heure limite d\'inscription :',
                 'mapped' => false,
                 'widget' => 'single_text',
             ])
-
+*/
             ->add('nbinscriptionsmax', IntegerType::class,[
                 'label' => 'Nombre maximum de participants :',
                 'required' => true,
             ])
+
             ->add('submit', SubmitType::class, [
-                'label' => 'Publier une sortie',
+                'label' => 'Publier',
             ])
 
             /* TODO:Gérer l'upload/affichage d'une photo
             ->add('urlphoto')
             */
 
+        /*
+         *  Affichage des time avec un EventListener (voir les anciennes méthodes timedebut et timelimite)
             ->addEventListener(FormEvents::POST_SET_DATA,
                 function (FormEvent $event){
                 $s = $event->getData();
@@ -89,7 +108,9 @@ class SortieType extends AbstractType
                 if($s->getDatedebut() !== null){
                     $form->get('timedebut')->setData($s->getDateDebut());
                 }
-            });
+            })
+*/
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver)

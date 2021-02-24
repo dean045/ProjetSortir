@@ -1,0 +1,9 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{parent()}} | Modifier la sortie{% endblock %}
+
+{% block body %}
+    {{ form(SortieForm) }}
+    {{ form_row(SortieForm, {'label' : 'TEST'}) }}
+
+{% endblock %}
