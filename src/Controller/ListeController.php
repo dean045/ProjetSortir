@@ -28,4 +28,14 @@ class ListeController extends AbstractController
 
     }
 
+    /**
+     * @Route(path="/tri", name="tri", methods={"POST"})
+     */
+    public function tri(Request $request, EntityManagerInterface $entityManager)
+    {
+
+        return $this->redirectToRoute('app_login');
+    }
+
+
 }
