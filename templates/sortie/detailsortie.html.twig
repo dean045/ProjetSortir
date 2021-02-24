@@ -9,7 +9,7 @@
     Date de début de sortie : {{ sortie.datedebut|date('d-m-Y H:i') }}<br>
     Date limite d'inscription : {{ sortie.dateLimiteInscription|date('d-m-Y H:i') }}<br>
     Nombre maximum de participants : {{ sortie.nbinscriptionsmax }}<br>
-    <a href="modifiersortie/{{sortie.id}}" class="btn btn-primary">Modifier ma sortie</a>
+    <a href="{{ path('modifiersortie', {'id': sortie.id}) }}" class="btn btn-primary">Modifier ma sortie</a>
 
 
 

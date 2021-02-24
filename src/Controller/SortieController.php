@@ -44,24 +44,6 @@ class SortieController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
 
             $sortie = $form->getData();
-/*
-            $datedebut = $form->get('datedebut')->getData();
-            $heuredebut = $form->get('timedebut')->getData();
-            $datelimite = $form->get('dateLimiteInscription')->getData();
-            $heurelimite = $form->get('timelimite')->getData();
-
-            $hdebut = $heuredebut->format('H');
-            $idebut = $heuredebut->format('i');
-            $hlimite = $heurelimite->format('H');
-            $ilimite = $heurelimite->format('i');
-
-            $datedebut->setTime($hdebut, $idebut, 0);
-            $datelimite->setTime($hlimite, $ilimite, 0);
-
-            $sortie->setDatedebut($datedebut);
-            $sortie->setDateLimiteInscription($datelimite);
-*/
-
             // Insertion de l'objet en BDD
             $em->persist($sortie);
 
@@ -72,7 +54,7 @@ class SortieController extends AbstractController
             $this->addFlash('success', 'Votre sortie a été postée avec succès!');
 
             //Redirection sur la page de détails
-            return $this->render('sortie/detailsortie.html.twig', ['sortie' => $sortie ]);
+            return $this->redirectToRoute('detailsortie', ['id' => $sortie->getId()]);
         }
 
         // Affichage du formulaire
@@ -81,56 +63,39 @@ class SortieController extends AbstractController
         ]);
     }
 
-        /**
-         * @Route(name="detailsortie", path="detailsortie/{id}", requirements={"id": "\d+"}, methods={"GET"})
-         */
-        public function details(Request $request, EntityManagerInterface $em)
-        {
-            $id = $request -> get('id');
+    /**
+     * @Route(name="detailsortie", path="detailsortie/{id}", requirements={"id": "\d+"}, methods={"GET"})
+     */
+    public function details(Request $request, EntityManagerInterface $em)
+    {
+        $id = $request->get('id');
 
-            $sortie = $em -> getRepository('App:Sortie')->findOneBy(["id"=>$id]);
+        $sortie = $em->getRepository('App:Sortie')->findOneBy(["id" => $id]);
 
-            return $this->render('sortie/detailsortie.html.twig', ['sortie' => $sortie]);
+        return $this->render('sortie/detailsortie.html.twig', ['sortie' => $sortie]);
+    }
+
+    /**
+     * @Route(name="modifiersortie", path="modifiersortie/{id}", requirements={"id": "\d+"}, methods={"GET", "POST"})
+     * @IsGranted("ROLE_ADMIN")
+     */
+    public function edit(Request $request, EntityManagerInterface $em)
+    {
+        $id = $request->get('id');
+        $sortie = $em->getRepository('App:Sortie')->findOneBy(["id" => $id]);
+        $form = $this->createForm(SortieType::class, $sortie);
+        $form->handleRequest($request);
+
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $sortie = $form->getData();
+            $em->flush();
+            $this->addFlash('Success', 'Votre sortie a été modifiée avec succès');
+            return $this->redirectToRoute('detailsortie', ['id' => $sortie->getId()]);
+        } else {
+            $this->addFlash('Warning', 'Attention, les modifications effectuées à votre sortie n\'ont pas été effectuées!');
         }
-
-        /**
-         * @Route(name="modifiersortie", path="detailsortie/modifiersortie/{id}", requirements={"id": "\d+"}, methods={"GET", "POST"})
-         * @IsGranted("ROLE_ADMIN")
-         */
-        public function edit(Request $request, EntityManagerInterface $em)
-        {
-            $id = $request -> get('id');
-            $sortie = $em -> getRepository('App:Sortie') -> findOneBy(["id"=>$id]);
-            $form = $this -> createForm(SortieType::class, $sortie);
-            $form -> handleRequest($request);
-
-
-            if ($form->isSubmitted() && $form->isValid()) {
-
-                $sortie = $form->getData();
-                /*
-                $datedebut = $form->get('datedebut')->getData();
-                $heuredebut = $form->get('timedebut')->getData();
-                $datelimite = $form->get('dateLimiteInscription')->getData();
-                $heurelimite = $form->get('timelimite')->getData();
-
-                $hdebut = $heuredebut->format('H');
-                $idebut = $heuredebut->format('i');
-                $hlimite = $heurelimite->format('H');
-                $ilimite = $heurelimite->format('i');
-
-                $datedebut->setTime($hdebut, $idebut, 0);
-                $datelimite->setTime($hlimite, $ilimite, 0);
-
-                $sortie->setDatedebut($datedebut);
-                $sortie->setDateLimiteInscription($datelimite);
-*/
-                $em -> flush();
-                $this -> addFlash('Success', 'Votre sortie a été modifiée avec succès');
-                return $this -> redirectToRoute('detailsortie', ['id' => $sortie -> getId()]);
-            } else {
-                $this -> addFlash('Warning', 'Attention, les modifications effectuées à votre sortie n\'ont pas été effectuées!');
-            }
-            return $this -> render('sortie/modifiersortie.html.twig', ['SortieForm' => $form -> createView()]);
-        }
+        return $this->render('sortie/modifiersortie.html.twig', ['SortieForm' => $form->createView()]);
+    }
 }
