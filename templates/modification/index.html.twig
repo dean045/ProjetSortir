@@ -3,7 +3,14 @@
 {% block body %}
 
     <h1>Modification du profil</h1>
-
-    {{ form(form) }}
-
+    <div class="container">
+        <div class="row text-center">
+            <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 ">
+                {{ form_start(form) }}
+                    {{ form_rest(form) }}
+                    <button type="submit" class="btn btn-primary text-uppercase btn-block">Modifier</button>
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
 {% endblock %}
