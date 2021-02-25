@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modification du site{% endblock %}
+
+{% block body %}
+
+    <h1 style="text-align: center">Site</h1>
+
+    {{ form_start(form) }}
+        {{ form_rest(form) }}
+        <button type="submit" class="btn btn-primary text-uppercase btn-block">Modifier</button>
+    {{ form_end(form) }}
+
+{% endblock %}

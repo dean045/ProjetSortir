@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ville{% endblock %}
+
+{% block body %}
+
+    <h1 style="text-align: center">Site</h1>
+
+    <table style="width: 80%;text-align: center" class="m-auto border table table-hover">
+        <thead>
+        <tr>
+            <th scope="col">Site</th>
+            <th scope="col" colspan="2" style="text-align: center">Actions</th>
+        </tr>
+        </thead>
+        <tbody id="myTable">
+        {% for site in site %}
+            <tr>
+                <td scope="row">{{ site.nom }}</td>
+                <td><a href="{{ url('site_update', {'id': site.id})}}">Modifier</a></td>
+                <td><a href="{{ url('site_delete', {'id': site.id})}}">Supprimer</a></td>
+            </tr>
+        {% endfor %}
+    </table>
+
+    {{ form_start(form) }}
+        {{ form_rest(form) }}
+        <button type="submit" class="btn btn-primary text-uppercase btn-block">Ajouter</button>
+    {{ form_end(form) }}
+
+{% endblock %}
