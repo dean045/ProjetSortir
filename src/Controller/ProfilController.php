@@ -2,7 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
 use App\Form\InscriptionUserType;
+use App\Service\FileUploader;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -27,8 +29,9 @@ class ProfilController extends AbstractController
     /**
      * @Route("/user/update", name="modification", requirements={"id": "\d+"})
      */
-    public function update(Request $request, EntityManagerInterface $entityManager)
+    public function update(Request $request, EntityManagerInterface $entityManager, FileUploader $fileUploader)
     {
+        /** @var User $user */
         $user = $this->getUser();
         $form = $this->createForm(InscriptionUserType::class, $user);
 
@@ -36,6 +39,14 @@ class ProfilController extends AbstractController
 
         if ($form->isSubmitted()) {
             if ($form->isValid()){
+
+                $imageFile = $form->get('image')->getData();
+
+                if ($imageFile) {
+                    $imageFileName = $fileUploader->upload($imageFile);
+                    $user->setImage($imageFileName);
+                }
+
                 $entityManager->persist($user);
                 $entityManager->flush();
 
