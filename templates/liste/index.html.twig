@@ -79,7 +79,13 @@
                     {% else %}
                         <td><a href="/participer/{{ sortie.id }}">S'inscrire</a></td>
                     {% endif %}
+
                     <td><a href="sortie/detailsortie/{{ sortie.id }}">Afficher</a></td>
+
+                    {% if app.user == sortie.organisateur %}
+                        <td><a href="{{ url('sortie_delete', {'id': sortie.id})}}">Supprimer</a></td>
+                    {% else %}
+                    {% endif %}
                 </tr>
             {% endfor %}
 

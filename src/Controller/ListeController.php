@@ -6,6 +6,7 @@ use App\Entity\User;
 use App\Entity\Sortie;
 use App\Form\SiteType;
 use Doctrine\ORM\EntityManagerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -53,5 +54,19 @@ class ListeController extends AbstractController
         }
     }
 
+    /**
+     * @Route("sortie/delete/{id}", name="sortie_delete")
+     * @IsGranted("ROLE_ADMIN")
+     */
+    public function delete(Sortie $sortie, EntityManagerInterface $entityManager)
+    {
+        $entityManager->remove($sortie);
+
+        $entityManager->flush();
+
+        $this->addFlash('success', sprintf('La ville "%s" a été supprimée !', $sortie->getNom()));
+
+        return $this->redirectToRoute('liste');
+    }
 
 }
