@@ -35,7 +35,7 @@
             </div>
 
             {% if app.user is null %}
-                <ul class="nav navbar-nav navbar-right">
+                <ul class="nav navbar-nav navbar-right ">
                     <li><a href="{{ url('app_login') }}"><span class="glyphicon glyphicon-log-in"></span> Connection</a>
                     </li>
                 </ul>
@@ -46,6 +46,10 @@
                                 Ajouter un utilisateur</a></li>
                         <li><a href="{{ url('creersortie') }}"><span class="glyphicon glyphicon-plus-sign"></span>
                                 Ajouter une sortie</a></li>
+                        <li><a href="{{ url('ville') }}"><span class="glyphicon glyphicon-globe"></span>
+                                Ville</a></li>
+                        <li><a href="#"><span class="glyphicon glyphicon-flag"></span>
+                                Site</a></li>
                     {% endif %}
                     <li><a href="{{ url('profil') }}"><span class="btn"></span> Mon profil</a></li>
                     <li><a href="{{ url('app_logout') }}"><span class="btn"></span> Déconnection</a></li>
