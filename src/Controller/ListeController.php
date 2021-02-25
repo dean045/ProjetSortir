@@ -2,6 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
+use App\Entity\Sortie;
+use App\Form\SiteType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,25 +19,38 @@ class ListeController extends AbstractController
     public function index(Request $request, EntityManagerInterface $em)
     {
         if ($this->isGranted('ROLE_USER')) {
-            $user = $this->getUser();
-            $liste = $em -> getRepository('App:Sortie')->findAll();
+            /** @var \App\Entity\User $user */
+            $user= $this->getUser();
+            $sites = $em ->getRepository('App:Site')->findAll();
+            $liste = $em -> getRepository('App:Sortie')->findBy(['site'=> $user->getSite()]);
             return $this->render('liste/index.html.twig', [
-                'liste' => $liste,]);
+                'liste' => $liste,'sites'=>$sites]);
         }
         else
         {
             return $this->redirectToRoute('app_login');
         }
-
     }
 
     /**
-     * @Route(path="/tri", name="tri", methods={"POST"})
+     * @Route(path="/{id}",requirements={"id": "\d+"}, name="tri", methods={"GET"})
      */
-    public function tri(Request $request, EntityManagerInterface $entityManager)
+    public function tri(Request $request, EntityManagerInterface $em)
     {
-
-        return $this->redirectToRoute('app_login');
+        if ($this->isGranted('ROLE_USER')) {
+            /** @var \App\Entity\User $user */
+            $user= $this->getUser();
+            $id = $request ->get('id');
+            $site = $em->getRepository('App:Site')->findBy(['id'=>$id]);
+            $sites = $em ->getRepository('App:Site')->findAll();
+            $liste = $em -> getRepository('App:Sortie')->findBy(['site'=> $site]);
+            return $this->render('liste/index.html.twig', [
+                'liste' => $liste,'sites'=>$sites]);
+        }
+        else
+        {
+            return $this->redirectToRoute('app_login');
+        }
     }
 
 
