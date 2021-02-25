@@ -116,4 +116,15 @@ class Site
 
         return $this;
     }
+
+    /**
+     * Transform to string
+     *
+     * @return string
+     */
+    public function __toString(): string
+    {
+        return (string) $this->getId();
+    }
+
 }
