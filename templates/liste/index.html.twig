@@ -183,6 +183,7 @@
             function date_tri() {
                 let date_debut = new Date(document.getElementById("date-debut").value).setHours(0,0);
                 let date_fin = new Date(document.getElementById("date-fin").value).setHours(0,0);
+                console.log(date_debut);
                 let table = document.getElementById("myTable");
                 let tr = table.getElementsByTagName("tr");
                 if(date_debut)
@@ -191,7 +192,10 @@
                         let td = tr[i].getElementsByTagName("td")[1];
                         if (td) {
                             let date_value = td.textContent||td.innerText;
+                            console.log(date_value);
+                            console.log(str_to_date(date_value.substring(0,10)));
                             date_value = new Date(str_to_date(date_value.substring(0,10)));
+                            console.log(date_value);
                             if (tr[i].style.display === "")
                             {
                                 if (date_value >= date_debut ) {
@@ -222,7 +226,7 @@
             }
             function str_to_date(date1)
             {
-                return date1.substring(3,5)+"-"+date1.substring(0,2)+"-"+date1.substring(6);
+                return date1.substring(6)+"-"+date1.substring(3,5)+"-"+date1.substring(0,2)+" 00:00:00";
             }
         </script>
     </div>
