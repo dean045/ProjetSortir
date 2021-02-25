@@ -2,21 +2,25 @@
 
 {% block body %}
 
-    <div>
+<div class="container">
+    <div class="row text-center">
+        <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 ">
         <p>Pseudo : {{ app.user.username }}</p>
         <p>Nom : {{ app.user.nom }}</p>
         <p>Prénom : {{ app.user.prenom }}</p>
         <p>Téléphone : {{ app.user.telephone }}</p>
         <p>Email : {{ app.user.mail }}</p>
-
-{#      {% for category in ad.categories %}#}
-{#      <p>{{ category }}</p>#}
-{#      {% endfor %}#}
+        <div><img src="{{ asset('/uploads/images/'~ app.user.image) }}" alt="image"></div>
+        </div>
     </div>
-
-    <div>
-        <a href="{{ url('modification') }}" class="card-link">Modifier</a>
+</div>
+<div class="container">
+    <div class="row text-center">
+        <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 ">
+            <a href="{{ url('modification') }}" class="card-link">Modifier</a>
+        </div>
     </div>
+</div>
 
 
 {% endblock %}

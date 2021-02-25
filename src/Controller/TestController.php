@@ -16,7 +16,7 @@ class TestController extends AbstractController
     public function index(UserPasswordEncoderInterface $encoder): Response
     {
 
-        $p = $encoder->encodePassword(new User(), 'password_0');
+        $p = $encoder->encodePassword(new User(), 'azerty');
         dd($p);
 
         return $this->render('test/index.html.twig', [

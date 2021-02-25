@@ -6,8 +6,28 @@
 
     <div class="container d-flex">
         <div class="col-5">
-            <label>Nom de la sortie :</label>
-            <input type="text" id="myInput" onkeyup="tri()" placeholder="rechercher">
+            <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Site :
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    {% for site in sites %}
+                        <a class="dropdown-item" href="/{{ site.id }}">{{ site.nom }}</a>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="row">
+                <label for="myInput">Nom de la sortie contient :</label>
+                <input type="text" id="myInput" onkeyup="tri()" placeholder="rechercher">
+            </div>
+            <div class="row">
+                <label for="date-debut">Entre</label>
+                <input type="date" id="date-debut" onchange="tri()">
+
+                <label for="date-fin">et</label>
+                <input type="date" id="date-fin" onchange="tri()">
+            </div>
         </div>
         <div class="col-5">
             <div>
@@ -21,6 +41,10 @@
             <div>
                 <input type="checkbox" checked id="non_inscrit" onclick="tri()">
                 <label for="non_inscrit">Sorti auquelles je ne suis pas inscrit/e</label>
+            </div>
+            <div>
+                <input type="checkbox" id="passe" onclick="tri()">
+                <label for="passe">Sortie(s) passée(s)</label>
             </div>
         </div>
     </div>
@@ -43,7 +67,7 @@
             <tbody id="myTable">
             {% for sortie in liste %}
                 <tr>
-                    <td scope="row">{{ sortie.nom }}</td>
+                    <td>{{ sortie.nom }}</td>
                     <td>{{ sortie.datedebut|date('d/m/Y H:i') }}</td>
                     <td>{{ sortie.dateLimiteInscription|date('d/m/Y H:i') }}</td>
                     <td>{{ sortie.participants|length~"/"~sortie.nbinscriptionsmax }}</td>
@@ -62,26 +86,6 @@
             </tbody>
         </table>
         <script>
-            /*
-            function recherche() {
-                var input, filter, table, tr, td, i, txtValue;
-                input = document.getElementById("myInput");
-                filter = input.value.toUpperCase();
-                table = document.getElementById("myTable");
-                tr = table.getElementsByTagName("tr");
-                for (i = 0; i < tr.length; i++) {
-                    td = tr[i].getElementsByTagName("td")[0];
-                    if (td) {
-                        txtValue = td.textContent || td.innerText;
-                        if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                            tr[i].style.display = "";
-                        } else {
-                            tr[i].style.display = "none";
-                        }
-                    }
-                }
-            }*/
-
             function tri() {
                 let table, td, tr, i;
                 let input = document.getElementById("myInput");
@@ -158,8 +162,6 @@
                         tr[i].style.display = "none";
                     }
                 }
-
-
                 for (i = 0; i < tr.length; i++) {
                     td = tr[i].getElementsByTagName("td")[0];
                     let txtValue = td.textContent || td.innerText;
@@ -175,9 +177,53 @@
                         }
                     }
                 }
-
+                date_tri();
             }
 
+            function date_tri() {
+                let date_debut = new Date(document.getElementById("date-debut").value).setHours(0,0);
+                let date_fin = new Date(document.getElementById("date-fin").value).setHours(0,0);
+                let table = document.getElementById("myTable");
+                let tr = table.getElementsByTagName("tr");
+                if(date_debut)
+                {
+                    for (let i = 0; i < tr.length; i++) {
+                        let td = tr[i].getElementsByTagName("td")[1];
+                        if (td) {
+                            let date_value = td.textContent||td.innerText;
+                            date_value = new Date(str_to_date(date_value.substring(0,10)));
+                            if (tr[i].style.display === "")
+                            {
+                                if (date_value >= date_debut ) {
+                                    tr[i].style.display = "";
+                                } else tr[i].style.display = "none";
+                            }
+                        }
+                    }
+                }
+                if(date_fin)
+                {
+                    {
+                        for (let i = 0; i < tr.length; i++) {
+                            let td = tr[i].getElementsByTagName("td")[1];
+                            if (td) {
+                                let date_value = td.textContent||td.innerText;
+                                date_value = new Date(str_to_date(date_value.substring(0,10)));
+                                if (tr[i].style.display === "")
+                                {
+                                    if (date_value <= date_fin ) {
+                                        tr[i].style.display = "";
+                                    } else tr[i].style.display = "none";
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            function str_to_date(date1)
+            {
+                return date1.substring(3,5)+"-"+date1.substring(0,2)+"-"+date1.substring(6);
+            }
         </script>
     </div>
 {% endblock %}

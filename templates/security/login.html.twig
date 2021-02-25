@@ -13,19 +13,51 @@
             You are logged in as {{ app.user.username }}, <a href="{{ path('app_logout') }}">Logout</a>
         </div>
     {% endif %}
-
-    <h1 class="h3 mb-3 font-weight-normal">Se connecter</h1>
-    <label for="inputUsername">Pseudo</label>
-    <input type="text" value="{{ last_username }}" name="username" id="inputUsername" class="form-control" required autofocus>
-    <label for="inputPassword">Mot de passe</label>
-    <input type="password" name="password" id="inputPassword" class="form-control" required>
-
-    <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
-
-    <div class="checkbox mb-3">
-        <label><input type="checkbox" id="remember_me" name="_remember_me"> se souvenir de moi </label>
+    <div class="container">
+        <div class="row text-center">
+            <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 ">
+                <h1 class="h3 mb-3 font-weight-normal">Se connecter</h1>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row text-center">
+            <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                <label for="inputUsername">Pseudo</label>
+                <input class="size=100" type="text" value="{{ last_username }}" name="username" id="inputUsername" class="form-control" required autofocus>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row text-center">
+            <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                <label for="inputPassword">Mot de passe</label>
+                <input class="size=100" type="password" name="password" id="inputPassword" class="form-control" required>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row text-center">
+            <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+                <div class="checkbox mb-3">
+                    <label><input type="checkbox" id="remember_me" name="_remember_me"> se souvenir de moi </label>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row text-center">
+            <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                <button class="btn btn-lg btn-primary" type="submit"> Se connecter </button>
+            </div>
+        </div>
     </div>
 
-    <button class="btn btn-lg btn-primary" type="submit"> Se connecter </button>
+
+
+
+
+
 </form>
 {% endblock %}
