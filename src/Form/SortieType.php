@@ -10,6 +10,7 @@ use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -38,11 +39,12 @@ class SortieType extends AbstractType
                 'trim' => true,
                 'required' => true,
             ])
-            ->add('site', EntityType::class, [
+            /*->add('site', EntityType::class, [
                 'class' => Site::class,
                 'choice_label' => 'nom',
             ])
-            /*
+
+
                         ->add('ville', EntityType::class, array(
                             'class' => Ville::class,
                             'query_builder' => function (EntityRepository $er)  {
@@ -50,8 +52,8 @@ class SortieType extends AbstractType
                             },
                             'choice_label' => 'nom',
                         ))
-                */
-/*
+
+
             ->add('lieu', EntityType::class, [
                 'class' => Lieu::class,
                 'choice_label' => 'ville.nom',
@@ -72,11 +74,10 @@ class SortieType extends AbstractType
             'label' => 'Durée de la sortie (en heures) :',
             'required' => true,
         ])
-        ->add('dateLimiteInscription', DateTimeType::class, [
+        ->add('dateLimiteInscription', DateType::class, [
             'label' => 'Date limite d\'inscription :',
             'required' => true,
-            'date_widget' => 'single_text',
-            'time_widget' => 'single_text',
+            'widget' => 'single_text',
         ])
         ->add('nbinscriptionsmax', IntegerType::class, [
             'label' => 'Nombre maximum de participants :',
