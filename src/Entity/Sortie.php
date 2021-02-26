@@ -49,10 +49,6 @@ class Sortie
      */
     private $description;
 
-    /**
-     * @ORM\Column(type="smallint")
-     */
-    private $etatsortie;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -81,6 +77,12 @@ class Sortie
      * @ORM\JoinColumn(nullable=false)
      */
     private $lieu;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Etat::class, inversedBy="sortie")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $etat;
 
 
     public function __construct()
@@ -167,17 +169,6 @@ class Sortie
         return $this;
     }
 
-    public function getEtatsortie(): ?int
-    {
-        return $this->etatsortie;
-    }
-
-    public function setEtatsortie(int $etatsortie): self
-    {
-        $this->etatsortie = $etatsortie;
-
-        return $this;
-    }
 
     public function getUrlphoto(): ?string
     {
@@ -247,6 +238,18 @@ class Sortie
     public function setLieu(?Lieu $lieu): self
     {
         $this->lieu = $lieu;
+
+        return $this;
+    }
+
+    public function getEtat(): ?Etat
+    {
+        return $this->etat;
+    }
+
+    public function setEtat(?Etat $etat): self
+    {
+        $this->etat = $etat;
 
         return $this;
     }

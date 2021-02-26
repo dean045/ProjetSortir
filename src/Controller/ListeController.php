@@ -22,8 +22,34 @@ class ListeController extends AbstractController
         if ($this->isGranted('ROLE_USER')) {
             /** @var \App\Entity\User $user */
             $user= $this->getUser();
+            $etats = $em ->getRepository('App:Etat')->findAll();
             $sites = $em ->getRepository('App:Site')->findAll();
-            $liste = $em -> getRepository('App:Sortie')->findBy(['site'=> $user->getSite()]);
+            $liste = $em -> getRepository('App:Sortie')->getpublie();
+            foreach ($liste as $sortie)
+            {
+                $now = new \DateTime('NOW',new \DateTimeZone('Europe/Paris'));
+                if($sortie->getDateLimiteInscription() < $now)
+                {
+                    $sortie->setEtat($etats[2]);
+                }
+                $fin= clone $sortie->getDatedebut();
+                $fin->add(new \DateInterval("PT{$sortie->getDuree()}H"));
+                $fin->setTimezone(new \DateTimeZone('Europe/Paris'));
+                if(($sortie->getDatedebut() < $now)  && ($now < $fin))
+                {
+                    $sortie->setEtat($etats[3]);
+                }
+                if($now > $fin)
+                {
+                    $sortie->setEtat($etats[4]);
+                }
+                if($now > $fin->add(new \DateInterval("P30D")))
+                {
+                    $sortie->setEtat($etats[6]);
+                }
+
+                $em->flush();
+            }
             return $this->render('liste/index.html.twig', [
                 'liste' => $liste,'sites'=>$sites]);
         }

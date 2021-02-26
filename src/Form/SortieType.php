@@ -82,8 +82,11 @@ class SortieType extends AbstractType
             'label' => 'Nombre maximum de participants :',
             'required' => true,
         ])
-        ->add('submit', SubmitType::class, [
+        ->add('Publier', SubmitType::class, [
             'label' => 'Publier',
+        ])
+        ->add('Enregistrer', SubmitType::class, [
+        'label' => 'Enregistrer',
         ]);
 
             /* TODO:Gérer l'upload/affichage d'une photo

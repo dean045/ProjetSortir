@@ -95,7 +95,11 @@
             </div>
         </div>
     </div>
-    {{ form_row(SortieForm.submit) }}
+    <div class="d-flex justify-content-around">
+        {{ form_row(SortieForm.Publier) }}
+        {{ form_row(SortieForm.Enregistrer) }}
+    </div>
+
     {{ form_end(SortieForm) }}
 
 

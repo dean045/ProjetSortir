@@ -18,11 +18,20 @@ class SortirController extends AbstractController
     {
         $id = $request->get('id');
         $user = $this->getUser();
+        /** @var \App\Entity\Sortie $sortie */
         $sortie = $entityManager->getRepository('App:Sortie')->findOneBy(['id'=>$id]);
-        $sortie->addParticipant($user);
-        $em = $this->getDoctrine()->getManager();
-        $em->persist($sortie);
-        $em->flush();
+        $datenow = new \DateTime("now");
+        if($sortie->getDateLimiteInscription() < $datenow)
+        {
+            $this->addFlash('error', 'Les inscriptions sont clos pour cette sortie.');
+        }
+        else
+        {
+            $sortie->addParticipant($user);
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($sortie);
+            $em->flush();
+        }
         return $this->redirectToRoute('liste');
     }
     /**

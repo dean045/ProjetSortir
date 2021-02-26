@@ -43,6 +43,15 @@ class SortieController extends AbstractController
         // Vérification de la soumission du formulaire
         if ($form->isSubmitted() && $form->isValid()) {
 
+            if ($form->getClickedButton() === $form->get('Publier')){
+                $etat = $em->getRepository('App:Etat')->findOneBy(['id'=>2]);
+                $msg='Votre sortie a été postée avec succès!';
+            }
+            else{
+                $etat = $em->getRepository('App:Etat')->findOneBy(['id'=>1]);
+                $msg='Votre brouillon sortie a été enregistré avec succès!';
+            }
+            $sortie->setEtat($etat);
             $sortie = $form->getData();
             // Insertion de l'objet en BDD
             $em->persist($sortie);
@@ -51,7 +60,7 @@ class SortieController extends AbstractController
             $em->flush();
 
             // Ajout d'un message de confirmation
-            $this->addFlash('success', 'Votre sortie a été postée avec succès!');
+            $this->addFlash('success', $msg);
 
             //Redirection sur la page de détails
             return $this->redirectToRoute('detailsortie', ['id' => $sortie->getId()]);
