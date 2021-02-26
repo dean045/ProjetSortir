@@ -4,24 +4,27 @@
 
 {% block body %}
 
-    <div class="container d-flex">
-        <div class="col-5">
-            <div class="dropdown">
-                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
-                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Site :
-                </button>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    {% for site in sites %}
-                        <a class="dropdown-item" href="/{{ site.id }}">{{ site.nom }}</a>
-                    {% endfor %}
+    <div class="container d-flex justify-content-around">
+        <div class="col-6">
+            <div class="row">
+                <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Site organisateur :
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        {% for site in sites %}
+                            <a class="dropdown-item" href="/{{ site.id }}">{{ site.nom }}</a>
+                        {% endfor %}
+                    </div>
                 </div>
             </div>
-            <div class="row">
-                <label for="myInput">Nom de la sortie contient :</label>
+
+            <div class="row d-flex justify-content-around">
+                <label for="myInput">Nom de la sortie :</label>
                 <input type="text" id="myInput" onkeyup="tri()" placeholder="rechercher">
             </div>
-            <div class="row">
+            <div class="row d-flex justify-content-around my-auto" style="width: 100%">
                 <label for="date-debut">Entre</label>
                 <input type="date" id="date-debut" onchange="tri()">
 
@@ -49,9 +52,9 @@
         </div>
     </div>
 
-    <div>
+    <div style="overflow-x:auto;">
         <h1 style="text-align: center">Liste des sorties programmées </h1>
-        <table style="width: 80%;text-align: center" class="m-auto border table table-hover">
+        <table style="width: 100%;text-align: center" class="m-auto border table table-hover">
             <thead>
             <tr>
                 <th scope="col">Nom de la sortie</th>
@@ -79,13 +82,7 @@
                     {% else %}
                         <td><a href="/participer/{{ sortie.id }}">S'inscrire</a></td>
                     {% endif %}
-
                     <td><a href="sortie/detailsortie/{{ sortie.id }}">Afficher</a></td>
-
-                    {% if app.user == sortie.organisateur %}
-                        <td><a href="{{ url('sortie_delete', {'id': sortie.id})}}">Supprimer</a></td>
-                    {% else %}
-                    {% endif %}
                 </tr>
             {% endfor %}
 
