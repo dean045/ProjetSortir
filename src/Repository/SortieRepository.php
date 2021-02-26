@@ -20,21 +20,18 @@ class SortieRepository extends ServiceEntityRepository
         parent::__construct($registry, Sortie::class);
     }
 
-    /*
 
-    /**
-     * @return Sortie[]
-
-    public function test(int $id) : array {
+    public function getpublie() : array {
         $em = $this -> getEntityManager();
 
         $query = $em -> createQuery(
-        'SELECT * FROM App\Entity\Sortie
-        WHERE nom = Test'
-        )->setParameter('id', $id);
+        'SELECT s FROM App\Entity\Sortie s
+        WHERE s.etat > 1 and s.etat < 7
+        ORDER BY s.id DESC'
+        );
         return $query->getResult();
     }
-    */
+
 
     // /**
     //  * @return Sortie[] Returns an array of Sortie objects
