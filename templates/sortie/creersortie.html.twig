@@ -53,38 +53,32 @@
 
             <div class="d-flex flex-row bd-highlight mb-3">
                 <div class="p-3 bd-highlight">
-                    <label>Ville :</label>
+                    <p id="ville">Ville :</p>
                 </div>
-                <div class="p-2 bd-highlight">{{ form_row(SortieForm.lieu) }}</div>
             </div>
 
             <div class="d-flex flex-row bd-highlight mb-3">
                 <div class="p-3 bd-highlight">
-                    <label>Rue :</label>
+                    <p id="rue">Rue :</p>
                 </div>
-                <div class="p-2 bd-highlight">{{ form_row(SortieForm.lieu) }}</div>
             </div>
 
             <div class="d-flex flex-row bd-highlight mb-3">
                 <div class="p-3 bd-highlight">
-                    <label>Code Postal :</label>
+                    <p id="cp">Code Postal :</p>
                 </div>
-                <div class="p-2 bd-highlight">{{ form_row(SortieForm.lieu) }}</div>
             </div>
 
             <div class="d-flex flex-row bd-highlight mb-3">
                 <div class="p-3 bd-highlight">
-                    <label>Latitude :</label>
+                    <p id="latitude">Latitude :</p>
                 </div>
-                <div class="p-2 bd-highlight">{{ form_row(SortieForm.lieu) }}</div>
             </div>
 
             <div class="d-flex flex-row bd-highlight mb-3">
                 <div class="p-3 bd-highlight">
-                    <label>Longitude :</label>
+                    <p id="longitude">Longitude :</p>
                 </div>
-                <div class="p-2 bd-highlight">{{ form_row(SortieForm.lieu) }}</div>
-
 
             </div>
         </div>
@@ -95,6 +89,34 @@
     </div>
 
     {{ form_end(SortieForm) }}
+    <script>
+        let lieu = document.getElementById('sortie_lieu');
+        let ville = document.getElementById('ville');
+        let rue = document.getElementById('rue');
+        let cp = document.getElementById('cp');
+        let lat = document.getElementById('latitude');
+        let long = document.getElementById('longitude');
+        // Quand une nouvelle <option> est selectionnée
+        lieu.addEventListener('change', function() {
+
+            let index = lieu.selectedIndex;
+            $.ajax({
+                url : "{{ path('lieu') }}",
+                data : {id : index },
+                method : "POST",
+                success: function(data){
+                    ville.innerHTML = "Ville : "+ data.ville.nom;
+                    rue.innerHTML = "Rue : "+ data.rue;
+                    cp.innerHTML = "Code postal : "+ data.ville.codePostal;
+                    lat.innerHTML = "Latitude : "+ data.latitute;
+                    long.innerHTML = "Longitude : "+ data.longitude;
+                    },
+                error : function (jqXHR, status, error){
+                    console.log('error ' + error);
+                }
+            });
+        })
+    </script>
 
 
 {% endblock %}

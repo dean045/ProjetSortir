@@ -4,14 +4,15 @@ namespace App\Controller;
 
 use App\Entity\Sortie;
 use App\Form\SortieType;
+use App\Repository\LieuRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use App\Entity\Site;
-use http\Client\Curl\User;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\SerializerInterface;
 
 /**
  * @Route(path="sortie/")
@@ -37,7 +38,7 @@ class SortieController extends AbstractController
         $sortie->setOrganisateur($this->getUser());
         $user = $this->getUser();
         $sortie->setSite($user->getSite());
-
+        $lieux= $em->getRepository('App:Lieu')->findAll();
         // Création du formulaire
         $form = $this->createForm('App\Form\SortieType', $sortie);
 
@@ -73,7 +74,7 @@ class SortieController extends AbstractController
 
         // Affichage du formulaire
         return $this->render('sortie/creersortie.html.twig', [
-            'SortieForm' => $form->createView()
+            'SortieForm' => $form->createView(), 'lieu' => $lieux
         ]);
     }
 
@@ -98,6 +99,7 @@ class SortieController extends AbstractController
         $id = $request->get('id');
         $sortie = $em->getRepository('App:Sortie')->findOneBy(["id" => $id]);
         $form = $this->createForm(SortieType::class, $sortie);
+        $lieux= $em->getRepository('App:Lieu')->findAll();
         $form->handleRequest($request);
 
 
@@ -110,7 +112,7 @@ class SortieController extends AbstractController
         } elseif ($form->isSubmitted() && !$form->isValid()) {
             $this->addFlash('Warning', 'Attention, les modifications effectuées à votre sortie n\'ont pas été effectuées!');
         }
-        return $this->render('sortie/modifiersortie.html.twig', ['SortieForm' => $form->createView(), 'sortie' => $sortie]);
+        return $this->render('sortie/modifiersortie.html.twig', ['SortieForm' => $form->createView(), 'sortie' => $sortie, 'lieu' => $lieux]);
     }
 
     /**
@@ -125,5 +127,20 @@ class SortieController extends AbstractController
         $em->flush();
         $this->addFlash('Success', 'Votre sortie a été annulée avec succès');
         return $this->redirectToRoute('detailsortie', ['id' => $sortie->getId()]);
+    }
+
+    /**
+     * @Route(name="lieu", path="lieu", methods={"GET", "POST"})
+     */
+    public function getlieu(Request $request, LieuRepository $repository, SerializerInterface $serializer): Response
+    {
+        if($request->isXmlHttpRequest()) {
+            $id = $request->request->get('id');
+            //var_dump($id);die;
+            $lieu = $repository->find((int) $id);
+            //var_dump('$lieu');die;
+            $json = $serializer->serialize($lieu, 'json',['groups' => ['liste']]);
+            return new JsonResponse($json, 200, [], true);
+        }
     }
 }
