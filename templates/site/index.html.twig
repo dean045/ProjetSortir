@@ -4,28 +4,66 @@
 
 {% block body %}
 
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success">
+            {{ message }}
+        </div>
+    {% endfor %}
+
     <h1 style="text-align: center">Site</h1>
 
-    <table style="width: 80%;text-align: center" class="m-auto border table table-hover">
-        <thead>
-        <tr>
-            <th scope="col">Site</th>
-            <th scope="col" colspan="2" style="text-align: center">Actions</th>
-        </tr>
-        </thead>
-        <tbody id="myTable">
-        {% for site in site %}
+    <div class="row d-flex justify-content-center">
+        <input type="text" id="myInput" onkeyup="triSite()" placeholder="Rechercher ville">
+    </div>
+    <div>
+        <table id="myTable" style="width: 80%;text-align: center" class="m-auto border table table-hover">
+            <thead>
             <tr>
-                <td scope="row">{{ site.nom }}</td>
-                <td><a href="{{ url('site_update', {'id': site.id})}}">Modifier</a></td>
-                <td><a href="{{ url('site_delete', {'id': site.id})}}">Supprimer</a></td>
+                <th scope="col">Site</th>
+                <th scope="col" colspan="2" style="text-align: center">Actions</th>
             </tr>
-        {% endfor %}
-    </table>
+            </thead>
+            <tbody id="myTable">
+            {% for site in site %}
+                <tr>
+                    <td scope="row">{{ site.nom }}</td>
+                    <td><a href="{{ url('site_update', {'id': site.id})}}">Modifier</a></td>
+                    <td><a href="{{ url('site_delete', {'id': site.id})}}">Supprimer</a></td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
 
+    <div class="row d-flex justify-content-center">
     {{ form_start(form) }}
         {{ form_rest(form) }}
         <button type="submit" class="btn btn-primary text-uppercase btn-block">Ajouter</button>
     {{ form_end(form) }}
+    </div>
 
+    <div>
+    <script>
+        function triSite() {
+            // Declare variables
+            var input, filter, table, tr, td, i, txtValue;
+            input = document.getElementById("myInput");
+            filter = input.value.toUpperCase();
+            table = document.getElementById("myTable");
+            tr = table.getElementsByTagName("tr");
+
+            // Loop through all table rows, and hide those who don't match the search query
+            for (i = 0; i < tr.length; i++) {
+                td = tr[i].getElementsByTagName("td")[0];
+                if (td) {
+                    txtValue = td.textContent || td.innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
+        }
+    </script>
+    </div>
 {% endblock %}

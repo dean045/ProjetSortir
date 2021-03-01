@@ -10,6 +10,7 @@
         <p>Prénom : {{ app.user.prenom }}</p>
         <p>Téléphone : {{ app.user.telephone }}</p>
         <p>Email : {{ app.user.mail }}</p>
+        <p>Site de rattachement : {{ app.user.site.nom }}</p>
         <div><img src="{{ asset('/uploads/images/'~ app.user.image) }}" alt="image"></div>
         </div>
     </div>

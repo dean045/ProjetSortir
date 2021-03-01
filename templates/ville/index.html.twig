@@ -6,28 +6,67 @@
 
     <h1 style="text-align: center">Ville</h1>
 
-<table style="width: 80%;text-align: center" class="m-auto border table table-hover">
-    <thead>
-    <tr>
-        <th scope="col">Ville</th>
-        <th scope="col">Code Postal</th>
-        <th scope="col" colspan="2" style="text-align: center">Actions</th>
-    </tr>
-    </thead>
-    <tbody id="myTable">
-    {% for ville in ville %}
-        <tr>
-            <td scope="row">{{ ville.nom }}</td>
-            <td>{{ ville.codePostal }}</td>
-            <td><a href="{{ url('update', {'id': ville.id})}}">Modifier</a></td>
-            <td><a href="{{ url('delete', {'id': ville.id})}}">Supprimer</a></td>
-        </tr>
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success">
+            {{ message }}
+        </div>
     {% endfor %}
-</table>
 
-    {{ form_start(form) }}
-        {{ form_rest(form) }}
-        <button type="submit" class="btn btn-primary text-uppercase btn-block">Ajouter</button>
-    {{ form_end(form) }}
+    <div>
+        <div class="row d-flex justify-content-center">
+            <input type="text" id="myInput" onkeyup="triVille()" placeholder="Rechercher ville">
+        </div>
+        <div>
+        <table id="myTable" style="width: 80%;text-align: center" class="m-auto border table table-hover">
+            <thead>
+            <tr>
+                <th scope="col">Ville</th>
+                <th scope="col">Code Postal</th>
+                <th scope="col" colspan="2" style="text-align: center">Actions</th>
+            </tr>
+            </thead>
+            <tbody id="myTable">
+            {% for ville in ville %}
+                <tr>
+                    <td scope="row">{{ ville.nom }}</td>
+                    <td>{{ ville.codePostal }}</td>
+                    <td><a href="{{ url('update', {'id': ville.id})}}">Modifier</a></td>
+                    <td><a href="{{ url('delete', {'id': ville.id})}}">Supprimer</a></td>
+                </tr>
+            {% endfor %}
+        </table>
+        </div>
 
+        <div class="row d-flex justify-content-center">
+        {{ form_start(form) }}
+            {{ form_row(form.nom) }}
+            {{ form_row(form.codePostal) }}
+            <button type="submit" class="btn btn-primary text-uppercase btn-block">Ajouter</button>
+        {{ form_end(form) }}
+        </div>
+
+        <script>
+            function triVille() {
+                // Declare variables
+                var input, filter, table, tr, td, i, txtValue;
+                input = document.getElementById("myInput");
+                filter = input.value.toUpperCase();
+                table = document.getElementById("myTable");
+                tr = table.getElementsByTagName("tr");
+
+                // Loop through all table rows, and hide those who don't match the search query
+                for (i = 0; i < tr.length; i++) {
+                    td = tr[i].getElementsByTagName("td")[0];
+                    if (td) {
+                        txtValue = td.textContent || td.innerText;
+                        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                            tr[i].style.display = "";
+                        } else {
+                            tr[i].style.display = "none";
+                        }
+                    }
+                }
+            }
+        </script>
+    </div>
 {% endblock %}

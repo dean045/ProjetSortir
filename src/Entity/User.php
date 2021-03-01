@@ -35,18 +35,18 @@ class User implements UserInterface
 
     /**
      * @Assert\NotBlank()
-     */
-    private $plainPassword;
-
-    /**
-     * @var string The hashed password
-     * @ORM\Column(type="string")
      * @Assert\Length(
      *      min = 8,
      *      max = 30,
      *      minMessage = "le mot de passe doit avoir au moins {{ limit }} caracteres",
      *      maxMessage = "le mot de passe doit avoir au maximum {{ limit }} caractere"
      * )
+     */
+    private $plainPassword;
+
+    /**
+     * @var string The hashed password
+     * @ORM\Column(type="string")
      */
     private $password;
 
