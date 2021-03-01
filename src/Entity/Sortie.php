@@ -6,6 +6,7 @@ use App\Repository\SortieRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=SortieRepository::class)
@@ -26,6 +27,9 @@ class Sortie
 
     /**
      * @ORM\Column(type="datetime")
+     * @Assert\GreaterThanOrEqual(value = "now", message="La date de début de sortie doit être fixée au plus tôt à aujourd'hui!")
+     * @Assert\GreaterThan (propertyPath="dateLimiteInscription", message="La date de début de sortie ne peut être inférieure à la date limite d'inscription!")
+     *
      */
     private $datedebut;
 
@@ -36,11 +40,13 @@ class Sortie
 
     /**
      * @ORM\Column(type="datetime")
+     * @Assert\GreaterThanOrEqual(value = "today", message="La date limite d'inscription doit être fixée au plus tôt à aujourd'hui!")
      */
     private $dateLimiteInscription;
 
     /**
      * @ORM\Column(type="smallint")
+     * @Assert\GreaterThan(1, message="Une sortie doit comporter au moins 2 participants!")
      */
     private $nbinscriptionsmax;
 
@@ -63,6 +69,7 @@ class Sortie
 
     /**
      * @ORM\ManyToMany(targetEntity=User::class, inversedBy="participations")
+     *
      */
     private $participants;
 

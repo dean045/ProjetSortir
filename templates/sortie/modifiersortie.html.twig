@@ -1,9 +1,113 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{parent()}} | Modifier la sortie{% endblock %}
+{% block title %}{{ parent() }} | Modifier la sortie{% endblock %}
 
 {% block body %}
-    {{ form(SortieForm) }}
-    {{ form_row(SortieForm, {'label' : 'TEST'}) }}
+
+    {{ form_start(SortieForm) }}
+
+    <div class="container d-flex justify-content-around">
+        <div class="col-6 ">
+            <div class="d-flex flex-row bd-highlight mb-3">
+                <div class="p-0 bd-highlight">
+                    {{ form_row(SortieForm.nom) }}
+                </div>
+            </div>
+
+            <div class="d-flex flex-row bd-highlight mb-3">
+                <div class="p-0 bd-highlight">
+                    {{ form_row(SortieForm.nbinscriptionsmax) }}
+                </div>
+            </div>
+
+            <div class="d-flex flex-row bd-highlight mb-3">
+                <div class="p-0 bd-highlight">
+                    {{ form_row(SortieForm.duree) }}
+                </div>
+            </div>
+
+            <div class="d-flex flex-row bd-highlight mb-3">
+                <div class="p-0 bd-highlight">
+                    {{ form_row(SortieForm.description) }}
+                </div>
+            </div>
+
+            <div class="d-flex flex-row bd-highlight mb-3">
+                <div class="p-0 bd-highlight">
+                    {{ form_row(SortieForm.datedebut) }}
+                </div>
+            </div>
+
+            <div class="d-flex flex-row bd-highlight mb-3">
+                <div class="p-0 bd-highlight">
+                    {{ form_row(SortieForm.dateLimiteInscription) }}
+                </div>
+            </div>
+
+            <div class="d-flex flex-row bd-highlight mb-3">
+                <div class="p-0 bd-highlight">
+                    {{ form_row(SortieForm.submit) }}
+                </div>
+            </div>
+
+        </div>
+
+
+        <div class="col-5 ">
+
+            <div class="d-flex flex-row bd-highlight mb-3">
+                <div class="p-0 bd-highlight">
+                    {{ form_row(SortieForm.site) }}
+                </div>
+            </div>
+
+            <div class="d-flex flex-row bd-highlight mb-3">
+                <div class="p-0 bd-highlight">
+                    {{ form_row(SortieForm.lieu) }}
+                </div>
+            </div>
+
+            <div class="d-flex flex-row bd-highlight mb-3">
+                <div class="p-0 bd-highlight">
+                    <label>Ville :</label>
+                </div>
+                <div class="p-0 bd-highlight">{{ form_row(SortieForm.lieu) }}</div>
+            </div>
+
+            <div class="d-flex flex-row bd-highlight mb-3">
+                <div class="p-0 bd-highlight">
+                    <label>Rue :</label>
+                </div>
+                <div class="p-0 bd-highlight">{{ form_row(SortieForm.lieu) }}</div>
+            </div>
+
+            <div class="d-flex flex-row bd-highlight mb-3">
+                <div class="p-0 bd-highlight">
+                    <label>Code Postal :</label>
+                </div>
+                <div class="p-0 bd-highlight">{{ form_row(SortieForm.lieu) }}</div>
+            </div>
+
+            <div class="d-flex flex-row bd-highlight mb-3">
+                <div class="p-0 bd-highlight">
+                    <label>Latitude :</label>
+                </div>
+                <div class="p-0 bd-highlight">{{ form_row(SortieForm.lieu) }}</div>
+            </div>
+
+            <div class="d-flex flex-row bd-highlight mb-3">
+                <div class="p-0 bd-highlight">
+                    <label>Longitude :</label>
+                </div>
+                <div class="p-0 bd-highlight">{{ form_row(SortieForm.lieu) }}</div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    {{ form_end(SortieForm) }}
+
 
 {% endblock %}
