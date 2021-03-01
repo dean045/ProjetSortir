@@ -5,6 +5,8 @@ namespace App\Controller;
 use App\Entity\Sortie;
 use App\Form\SortieType;
 use Doctrine\ORM\EntityManagerInterface;
+use App\Entity\Site;
+use http\Client\Curl\User;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -31,8 +33,10 @@ class SortieController extends AbstractController
 
         $sortie->setDateLimiteInscription(new \DateTime());
 
-        // ID de l'user
+        // ID & site rattaché de l'user
         $sortie->setOrganisateur($this->getUser());
+        $user = $this->getUser();
+        $sortie->setSite($user->getSite());
 
         // Création du formulaire
         $form = $this->createForm('App\Form\SortieType', $sortie);

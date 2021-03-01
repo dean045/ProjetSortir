@@ -24,4 +24,28 @@
         {% endif %}
     </div>
 
+    <div style="overflow-x:auto;">
+    <h1 style="text-align: center">Liste des sorties programmées </h1>
+    <table style="width: 100%;text-align: center" class="m-auto border table table-hover">
+        <thead>
+        <tr>
+            <th scope="col">Pseudo</th>
+            <th scope="col">Nom</th>
+            <th scope="col" colspan="2" style="text-align: center">Prénom</th>
+        </tr>
+        </thead>
+        <tbody id="myTable">
+        {% for participants in sortie.participants %}
+            <tr>
+                <td>{{ participants.username }}</td>
+                <td>{{ participants.nom }}</td>
+                <td>{{ participants.prenom }}</td>
+            </tr>
+        {% endfor %}
+
+
+        </tbody>
+    </table>
+
+
 {% endblock %}
