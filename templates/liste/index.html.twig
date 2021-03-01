@@ -81,8 +81,8 @@
                         {% if sortie.dateDebut > date() %}
                             <td><a href="/sedesister/{{ sortie.id }}">Se désister</a></td>
                         {% endif %}
-                    {% else %}
-                        {% if sortie.dateLimiteInscription < date() %}
+                    {% else  %}
+                        {% if sortie.etat.libelle != "Ouverte" %}
                             <td><p>Clôturé</p></td>
                         {% else %}
                             <td><a href="/participer/{{ sortie.id }}">S'inscrire</a></td>

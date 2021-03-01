@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Etat;
 use App\Entity\User;
 use App\Entity\Sortie;
 use App\Form\SiteType;
@@ -25,27 +26,30 @@ class ListeController extends AbstractController
             $etats = $em ->getRepository('App:Etat')->findAll();
             $sites = $em ->getRepository('App:Site')->findAll();
             $liste = $em -> getRepository('App:Sortie')->getpublie();
+
             foreach ($liste as $sortie)
             {
                 $now = new \DateTime('NOW',new \DateTimeZone('Europe/Paris'));
-                if($sortie->getDateLimiteInscription() < $now)
-                {
-                    $sortie->setEtat($etats[2]);
-                }
+                $etat = $sortie->getEtat();
                 $fin= clone $sortie->getDatedebut();
                 $fin->add(new \DateInterval("PT{$sortie->getDuree()}H"));
                 $fin->setTimezone(new \DateTimeZone('Europe/Paris'));
-                if(($sortie->getDatedebut() < $now)  && ($now < $fin))
+                if($sortie->getDateLimiteInscription() < $now && $etat->getId() != 6)
                 {
-                    $sortie->setEtat($etats[3]);
+                    $sortie->setEtat($etats[2]); //clot
                 }
-                if($now > $fin)
+                if(($sortie->getDatedebut() < $now)  && ($now < $fin) && $etat->getId() != 6)
                 {
-                    $sortie->setEtat($etats[4]);
+                    $sortie->setEtat($etats[3]); //en cours
+                }
+                //dd($now,$fin);
+                if($now > $fin && $etat->getId() != 6)
+                {
+                    $sortie->setEtat($etats[4]); //passé
                 }
                 if($now > $fin->add(new \DateInterval("P30D")))
                 {
-                    $sortie->setEtat($etats[6]);
+                    $sortie->setEtat($etats[6]); //archivé
                 }
 
                 $em->flush();

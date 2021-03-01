@@ -43,13 +43,14 @@ class SortieController extends AbstractController
         // Vérification de la soumission du formulaire
         if ($form->isSubmitted() && $form->isValid()) {
 
-            if ($form->getClickedButton() === $form->get('Publier')){
-                $etat = $em->getRepository('App:Etat')->findOneBy(['id'=>2]);
-                $msg='Votre sortie a été postée avec succès!';
-            }
-            else{
-                $etat = $em->getRepository('App:Etat')->findOneBy(['id'=>1]);
-                $msg='Votre brouillon sortie a été enregistré avec succès!';
+            $user = $this->getUser();
+            $sortie->setSite($user->getSite());
+            if ($form->getClickedButton() === $form->get('Publier')) {
+                $etat = $em->getRepository('App:Etat')->findOneBy(['id' => 2]);
+                $msg = 'Votre sortie a été postée avec succès!';
+            } else {
+                $etat = $em->getRepository('App:Etat')->findOneBy(['id' => 1]);
+                $msg = 'Votre brouillon sortie a été enregistré avec succès!';
             }
             $sortie->setEtat($etat);
             $sortie = $form->getData();
@@ -102,9 +103,23 @@ class SortieController extends AbstractController
             $em->flush();
             $this->addFlash('Success', 'Votre sortie a été modifiée avec succès');
             return $this->redirectToRoute('detailsortie', ['id' => $sortie->getId()]);
-        } else {
+        } elseif ($form->isSubmitted() && !$form->isValid()) {
             $this->addFlash('Warning', 'Attention, les modifications effectuées à votre sortie n\'ont pas été effectuées!');
         }
-        return $this->render('sortie/modifiersortie.html.twig', ['SortieForm' => $form->createView()]);
+        return $this->render('sortie/modifiersortie.html.twig', ['SortieForm' => $form->createView(), 'sortie' => $sortie]);
+    }
+
+    /**
+     * @Route(name="annulersortie", path="annulersortie/{id}", requirements={"id": "\d+"}, methods={"GET", "POST"})
+     */
+    public function cancel(Request $request, EntityManagerInterface $em)
+    {
+        $id = $request->get('id');
+        $sortie = $em->getRepository('App:Sortie')->findOneBy(["id" => $id]);
+        $etat = $em->getRepository('App:Etat')->findOneBy(["id" => 6]);
+        $sortie -> setEtat($etat);
+        $em->flush();
+        $this->addFlash('Success', 'Votre sortie a été annulée avec succès');
+        return $this->redirectToRoute('detailsortie', ['id' => $sortie->getId()]);
     }
 }
