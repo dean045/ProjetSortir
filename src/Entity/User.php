@@ -82,7 +82,7 @@ class User implements UserInterface
 
     /**
      * @var string|null
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", nullable=true)
      */
     private $image;
 
@@ -343,9 +343,10 @@ class User implements UserInterface
     /**
      * @param string|null $image
      */
-    public function setImage(?string $image): void
+    public function setImage($image)
     {
         $this->image = $image;
+        return $this;
     }
 
     public function getSite(): ?Site
