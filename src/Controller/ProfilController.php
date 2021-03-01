@@ -29,7 +29,7 @@ class ProfilController extends AbstractController
     /**
      * @Route("/user/update", name="modification", requirements={"id": "\d+"})
      */
-    public function update(Request $request, EntityManagerInterface $entityManager, FileUploader $fileUploader)
+    public function update(Request $request, EntityManagerInterface $entityManager /*FileUploader $fileUploader*/)
     {
         /** @var User $user */
         $user = $this->getUser();
@@ -39,13 +39,13 @@ class ProfilController extends AbstractController
 
         if ($form->isSubmitted()) {
             if ($form->isValid()){
-
+/*
                 $imageFile = $form->get('image')->getData();
 
                 if ($imageFile) {
                     $imageFileName = $fileUploader->upload($imageFile);
                     $user->setImage($imageFileName);
-                }
+                }*/
 
                 $entityManager->persist($user);
                 $entityManager->flush();
