@@ -61,38 +61,39 @@ class SortieType extends AbstractType
             ])
 */
             ->add('lieu', EntityType::class, [
-        'class' => Lieu::class,
-        'choice_label' => 'nom',
-    ])
-        ->add('datedebut', DateTimeType::class, [
-            'label' => 'Date de début de sortie :',
-            'required' => true,
-            'date_widget' => 'single_text',
-            'time_widget' => 'single_text',
-        ])
-        ->add('duree', IntegerType::class, [
-            'label' => 'Durée de la sortie (en heures) :',
-            'required' => true,
-        ])
-        ->add('dateLimiteInscription', DateType::class, [
-            'label' => 'Date limite d\'inscription :',
-            'required' => true,
-            'widget' => 'single_text',
-        ])
-        ->add('nbinscriptionsmax', IntegerType::class, [
-            'label' => 'Nombre maximum de participants :',
-            'required' => true,
-        ])
-        ->add('Publier', SubmitType::class, [
-            'label' => 'Publier',
-        ])
-        ->add('Enregistrer', SubmitType::class, [
-        'label' => 'Enregistrer',
-        ]);
+                'class' => Lieu::class,
+                'placeholder' => 'Choisir un lieu',
+                'choice_label' => 'nom',
+            ])
+            ->add('datedebut', DateTimeType::class, [
+                'label' => 'Date de début de sortie :',
+                'required' => true,
+                'date_widget' => 'single_text',
+                'time_widget' => 'single_text',
+            ])
+            ->add('duree', IntegerType::class, [
+                'label' => 'Durée de la sortie (en heures) :',
+                'required' => true,
+            ])
+            ->add('dateLimiteInscription', DateType::class, [
+                'label' => 'Date limite d\'inscription :',
+                'required' => true,
+                'widget' => 'single_text',
+            ])
+            ->add('nbinscriptionsmax', IntegerType::class, [
+                'label' => 'Nombre maximum de participants :',
+                'required' => true,
+            ])
+            ->add('Publier', SubmitType::class, [
+                'label' => 'Publier',
+            ])
+            ->add('Enregistrer', SubmitType::class, [
+                'label' => 'Enregistrer',
+            ]);
 
-            /* TODO:Gérer l'upload/affichage d'une photo
-            ->add('urlphoto')
-     */
+        /* TODO:Gérer l'upload/affichage d'une photo
+        ->add('urlphoto')
+ */
 
     }
 

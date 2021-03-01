@@ -24,22 +24,23 @@ class InscriptionController extends AbstractController
     public function index(EntityManagerInterface $em, Request $request, UserPasswordEncoderInterface $passwordEncoder): Response
     {
         $user = new User();
-        $form = $this->createForm(InscriptionUserType::class, $user);
+        $editUser = clone $user;
+        $form = $this->createForm(InscriptionUserType::class, $editUser);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $user->setPassword(
+            $editUser->setPassword(
                 $passwordEncoder->encodePassword(
-                    $user,
-                    $user->getPlainPassword()
+                    $editUser,
+                    $editUser->getPlainPassword()
                 )
             );
             if($form->get('admin') == true)
             {
-                $user->setRoles(["ROLE_ADMIN"]);
+                $editUser->setRoles(["ROLE_ADMIN"]);
             }
-            $user = $form->getData();
+            $editUser = $form->getData();
             $em = $this->getDoctrine()->getManager();
-            $em->persist($user);
+            $em->persist($editUser);
             $em->flush();
 
             return $this->redirectToRoute('liste');

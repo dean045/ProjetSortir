@@ -33,7 +33,8 @@ class ProfilController extends AbstractController
     {
         /** @var User $user */
         $user = $this->getUser();
-        $form = $this->createForm(InscriptionUserType::class, $user);
+        $editUser = $entityManager->getRepository('App:User')->find($user->getId());
+        $form = $this->createForm(InscriptionUserType::class, $editUser);
 
         $form->handleRequest($request);
 
@@ -46,11 +47,13 @@ class ProfilController extends AbstractController
                     $imageFileName = $fileUploader->upload($imageFile);
                     $user->setImage($imageFileName);
                 }*/
-
-                $entityManager->persist($user);
+                $user = $editUser;
+                //dd($user);
                 $entityManager->flush();
 
                 $this->addFlash('success', 'Vote profil a été mise à jour !');
+
+
 
                 return $this->redirectToRoute('liste');
             }else{

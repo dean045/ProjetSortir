@@ -46,21 +46,21 @@
 
             <div class="d-flex flex-row bd-highlight mb-3">
                 <div class="p-0 bd-highlight">
-                    {{ form_row(SortieForm.submit) }}
+                    {{ form_row(SortieForm.Publier) }}
                 </div>
             </div>
+            {% if sortie.etat.id != 0 %}
+            <div class="d-flex flex-row bd-highlight mb-3">
+                <div class="p-0 bd-highlight">
+                    {{ form_row(SortieForm.Enregistrer) }}
+                </div>
+            </div>
+            {% endif %}
 
         </div>
 
 
         <div class="col-5 ">
-
-            <div class="d-flex flex-row bd-highlight mb-3">
-                <div class="p-0 bd-highlight">
-                    {{ form_row(SortieForm.site) }}
-                </div>
-            </div>
-
             <div class="d-flex flex-row bd-highlight mb-3">
                 <div class="p-0 bd-highlight">
                     {{ form_row(SortieForm.lieu) }}
