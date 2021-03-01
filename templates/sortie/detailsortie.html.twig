@@ -18,7 +18,7 @@
     <div class="d-flex justify-content-around">
         <a href="{{ path('modifiersortie', {'id': sortie.id}) }}" class="btn btn-primary">Modifier ma sortie</a>
         {% if app.user == sortie.organisateur %}
-            <td><a class="btn btn-danger" href="{{ url('sortie_delete', {'id': sortie.id})}}">Supprimer</a></td>
+            <td><a class="btn btn-danger" href="{{ url('sortie_delete', {'id': sortie.id})}}">Annuler</a></td>
         {% endif %}
     </div>
 
