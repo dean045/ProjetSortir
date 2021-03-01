@@ -136,9 +136,9 @@ class SortieController extends AbstractController
     {
         if($request->isXmlHttpRequest()) {
             $id = $request->request->get('id');
-            //var_dump($id);die;
+
             $lieu = $repository->find((int) $id);
-            //var_dump('$lieu');die;
+
             $json = $serializer->serialize($lieu, 'json',['groups' => ['liste']]);
             return new JsonResponse($json, 200, [], true);
         }

@@ -22,7 +22,16 @@
     <nav class="my-2 my-md-0 mr-md-3 container d-flex justify-content-around">
         {% if app.user %}
             {% if is_granted('ROLE_ADMIN') %}
-                <a href="{{ url('profil') }}">Mon profil</a>
+                <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Panel admin
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item" href="{{ url('inscription') }}">Ajouter un utilisateur</a>
+                        <a class="dropdown-item" href="{{ url('ville') }}">Ajouter une ville</a>
+                        <a class="dropdown-item" href="{{ url('site') }}">Ajouter un site</a>
+                    </div>
+                </div>
             {% endif %}
             <a href="{{ url('creersortie') }}">Ajouter une sortie</a>
             <a href="{{ url('profil') }}">Mon profil</a>
