@@ -15,6 +15,7 @@
                     <p class="m-2">Téléphone : {{ app.user.telephone }}</p>
                     <p class="m-2">Email : {{ app.user.mail }}</p>
                     <p class="m-2">Site de rattachement : {{ app.user.site.nom }}</p>
+                    <a class="btn btn-primary mx-2" href="{{ url('modification') }}" class="card-link">Modifier</a>
                 </div>
             </div>
         </div>
@@ -24,7 +25,6 @@
                     <div>
                        <img class="img-thumbnail" style="width: 200px" src="{{ asset('/uploads/images/'~ app.user.image) }}" alt="image">
                     </div>
-                        <a href="{{ url('modification') }}" class="card-link">Modifier</a>
                 </div>
             </div>
         </div>

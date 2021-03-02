@@ -38,7 +38,7 @@ class SiteController extends AbstractController
                 $em->persist($site2);
                 $em->flush();
 
-                $this->addFlash('success', 'Votre ville a bien été ajoutée !');
+                $this->addFlash('success', 'Votre site a bien été ajouté !');
 
                 return $this->redirectToRoute('site');
             }
@@ -103,7 +103,7 @@ class SiteController extends AbstractController
 
         $entityManager->flush();
 
-        $this->addFlash('success', sprintf('Le site "%s" a été supprimée !', $site->getNom()));
+        $this->addFlash('success', sprintf('Le site "%s" a été supprimé !', $site->getNom()));
 
         return $this->redirectToRoute('site');
     }

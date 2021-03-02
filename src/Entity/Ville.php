@@ -13,7 +13,10 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=VilleRepository::class)
- * @UniqueEntity("nom", "codePostal", message="Ces informations existent déjà!")
+ * @UniqueEntity(
+ *     fields={"nom", "codePostal"},
+ *     message="Ces informations existent déjà!"
+ * )
  */
 class Ville
 {
