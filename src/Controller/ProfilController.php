@@ -17,22 +17,30 @@ class ProfilController extends AbstractController
 //------------------------------DETAILS----------------------------------------------------------------------------
 
     /**
-     * @Route("user", name="profil")
+     * @Route(name="profil", path="user")
      */
-    public function details()
+    public function detailsUser()
     {
         return $this->render('profil/index.html.twig');
+    }
+
+
+    /**
+     * @Route(name="profilAutreUser", path="profiluser/{username}", requirements={"username": "\w+"}, methods={"GET"})
+     */
+    public function detailsOtherUsers(Request $request, EntityManagerInterface $em)
+    {
+        $username = $request->get('username');
+        $user = $em -> getRepository('App:User')->findOneBy(["username" => $username]);
+        return $this->render('profil/profilAutreUser.html.twig', ['user' => $user]);
     }
 
 //------------------------------UPDATE----------------------------------------------------------------------------
 
     /**
      * @Route("/user/update", name="modification", requirements={"id": "\d+"})
-     * @param Request $request
-     * @param EntityManagerInterface $entityManager
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
-    public function update(Request $request, EntityManagerInterface $entityManager,FileUploader $fileUploader)
+    public function update(Request $request, EntityManagerInterface $entityManager /*FileUploader $fileUploader*/)
     {
         /** @var User $user */
         $user = $this->getUser();
@@ -43,13 +51,13 @@ class ProfilController extends AbstractController
 
         if ($form->isSubmitted()) {
             if ($form->isValid()){
-
+/*
                 $imageFile = $form->get('image')->getData();
 
                 if ($imageFile) {
                     $imageFileName = $fileUploader->upload($imageFile);
                     $user->setImage($imageFileName);
-                }
+                }*/
                 $user = $editUser;
                 //dd($user);
                 $entityManager->flush();
