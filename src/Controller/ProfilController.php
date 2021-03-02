@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Sortie;
 use App\Entity\User;
 use App\Form\InscriptionUserType;
 use App\Service\FileUploader;
@@ -19,9 +20,13 @@ class ProfilController extends AbstractController
     /**
      * @Route(name="profil", path="user")
      */
-    public function detailsUser()
+    public function detailsUser(Request $request, EntityManagerInterface $em)
     {
-        return $this->render('profil/index.html.twig');
+        /** @var User $user */
+        $user = $this->getUser();
+        $etat = $em->getRepository('App:Etat')->find(1);
+        $liste = $em->getRepository(Sortie::class)->getUserEtat($user,$etat);
+        return $this->render('profil/index.html.twig', ['liste'=>$liste]);
     }
 
 

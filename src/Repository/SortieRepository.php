@@ -31,6 +31,17 @@ class SortieRepository extends ServiceEntityRepository
         );
         return $query->getResult();
     }
+    public function getUserEtat($user, $etat)
+    {
+        return $this->createQueryBuilder('s')
+            ->andWhere('s.organisateur = :user')
+            ->setParameter('user', $user)
+            ->andWhere('s.etat = :valEtat')
+            ->setParameter('valEtat', $etat)
+            ->orderBy('s.id', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
 
 
     // /**
