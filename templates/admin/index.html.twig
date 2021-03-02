@@ -14,7 +14,7 @@
                 <th scope="col">Mail</th>
                 <th scope="col">Admin</th>
                 <th scope="col">Actif</th>
-                <th scope="col">Selection</th>
+                <th scope="col"><input id="selectall" onclick="selectAll()" type="checkbox"></th>
             </tr>
             </thead>
             <tbody id="myTable">
@@ -30,8 +30,10 @@
                         <td><input value="{{ user.id }}" type="checkbox"></td>
                     </tr>
                 {% endfor %}
-                <button id="1" type="none" onclick="activer(this.id)">Activer</button>
-                <button id="2" type="none" onclick="activer(this.id)">Desactiver</button>
+                <button class="btn btn-outline-primary" id="1" type="none" onclick="activer(this.id)">Activer</button>
+                <button class="btn btn-outline-primary" id="2" type="none" onclick="activer(this.id)">Desactiver
+                </button>
+                <button class="btn btn-outline-primary" id="3" type="none" onclick="activer(this.id)">Supprimer</button>
             </form>
             </tbody>
         </table>
@@ -41,27 +43,68 @@
             let elchecked = document.forms[0];
             let tab = [];
             let i;
+            let item_checked = 0;
+            let check = true;
             for (i = 0; i < elchecked.length; i++) {
                 if (elchecked[i].checked) {
                     tab.push(elchecked[i].value);
+                    item_checked++;
                 }
             }
-            let path = "{{ path('admin_desactiver') }}"
-            if(id == 1)
-                 path = "{{ path('admin_activer') }}";
+            let path = "";
+            let msg = "";
+            switch (id) {
+                case '1' :
+                    path = "{{ path('admin_activer') }}";
+                    msg = " ont été activé(s).";
+                    break;
+                case '2':
+                    path = "{{ path('admin_desactiver') }}";
+                    msg = " ont été desactivé(s).";
+                    break;
+                case '3':
+                    path = "{{ path('admin_suppr') }}";
+                    msg = " ont été supprimé(s).";
+                    break;
+            }
+            if(id == 3)
+            {
+                if (!confirm("Vous êtes sur le point de supprimer "+item_checked+" utilisateurs."))
+                    check = false;
+            }
+            if(check==true)
+            {
+                $.ajax({
+                    url: path,
+                    data: {liste: tab},
+                    method: "POST",
+                    success: function (data) {
+                        alert(data + msg);
+                    },
+                    error: function (jqXHR, status, error) {
+                        console.log('error ' + error);
+                    }
+                });
+            }
 
-            $.ajax({
-                url : path,
-                data : {liste : tab },
-                method : "POST",
-                success: function(data){
-                    alert(data+" ont été modifié(s).");
-                },
-                error : function (jqXHR, status, error){
-                    console.log('error ' + error);
+        }
+        function selectAll()
+        {
+            let checkall = document.getElementById('selectall');
+            if(checkall.checked === true)
+            {
+                let elchecked = document.forms[0];
+                for (let i = 0; i < elchecked.length; i++) {
+                    elchecked[i].checked = true;
                 }
-            });
-            console.log(tab);
+            }
+            else
+            {
+                let elchecked = document.forms[0];
+                for (let i = 0; i < elchecked.length; i++) {
+                    elchecked[i].checked = false;
+                }
+            }
         }
 
 

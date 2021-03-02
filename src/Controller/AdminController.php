@@ -38,9 +38,12 @@ class AdminController extends AbstractController
             foreach ($liste as $id)
             {
                 $user = $em->getRepository(User::class)->find($id);
-                $user ->setActif(true);
-                $em->flush();
-                $compteur++;
+                if($user->getActif() == false)
+                {
+                    $user ->setActif(true);
+                    $em->flush();
+                    $compteur++;
+                }
             }
             return new JsonResponse($compteur, 200, [], true);
         }
@@ -58,9 +61,35 @@ class AdminController extends AbstractController
             foreach ($liste as $id)
             {
                 $user = $em->getRepository(User::class)->find($id);
-                $user ->setActif(false);
-                $em->flush();
-                $compteur++;
+                if($user->getActif() == true)
+                {
+                    $user ->setActif(false);
+                    $em->flush();
+                    $compteur++;
+                }
+            }
+            return new JsonResponse($compteur, 200, [], true);
+        }
+    }
+
+    /**
+     * @Route("/admin_suppr", name="admin_suppr", methods={"GET","POST"})
+     */
+    public function suppr(Request $request, EntityManagerInterface $em): Response
+    {
+        if ($request->isXmlHttpRequest()) {
+            $liste = $request->request->get('liste');
+            $compteur = 0;
+
+            foreach ($liste as $id)
+            {
+                $user = $em->getRepository(User::class)->find($id);
+                if($user)
+                {
+                    $em->remove($user);
+                    $em->flush();
+                    $compteur++;
+                }
             }
             return new JsonResponse($compteur, 200, [], true);
         }
