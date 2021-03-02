@@ -113,6 +113,7 @@ class InscriptionController extends AbstractController
                 }
                 else{
                     $this->addFlash('warning', "L'ajout d'utilisateur s'est arrété à la ligne ".$ligne." car les données saisies ne sont pas valides.");
+                    return $this->redirectToRoute('liste');
                 }
                 $ligne++;
             }
