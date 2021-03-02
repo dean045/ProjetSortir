@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Liste{% endblock %}
+{% block title %}{{ parent() }} | Accueil{% endblock %}
 
 {% block body %}
 
@@ -8,6 +8,7 @@
         <div class="col-6">
             <div class="row">
                 <div class="dropdown">
+                    <h5>Filtrer les sorties</h5>
                     <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Site organisateur :
@@ -21,7 +22,7 @@
             </div>
 
             <div class="row d-flex justify-content-around">
-                <label for="myInput">Nom de la sortie :</label>
+                <label for="myInput">Le nom de la sortie contient :</label>
                 <input type="text" id="myInput" onkeyup="tri()" placeholder="rechercher">
             </div>
             <div class="row d-flex justify-content-around my-auto" style="width: 100%">
@@ -35,19 +36,19 @@
         <div class="col-5">
             <div>
                 <input type="checkbox" checked id="organisateur" onclick="tri()">
-                <label for="organisateur">Sorti dont je suis l'organisateur</label>
+                <label for="organisateur">Sorties dont je suis l'organisateur/trice</label>
             </div>
             <div>
                 <input type="checkbox" checked id="inscrit" onclick="tri()">
-                <label for="inscrit">Sorti auquelles je suis inscrit/e</label>
+                <label for="inscrit">Sorties auxquelles je suis inscrit/e</label>
             </div>
             <div>
                 <input type="checkbox" checked id="non_inscrit" onclick="tri()">
-                <label for="non_inscrit">Sorti auquelles je ne suis pas inscrit/e</label>
+                <label for="non_inscrit">Sorties auquelles je ne suis pas inscrit/e</label>
             </div>
             <div>
                 <input type="checkbox" checked id="passe" onclick="tri()">
-                <label for="passe">Sortie(s) passée(s)</label>
+                <label for="passe">Sorties passées</label>
             </div>
         </div>
     </div>
@@ -59,9 +60,9 @@
             <tr>
                 <th scope="col">Nom de la sortie</th>
                 <th scope="col">Date de la sortie</th>
-                <th scope="col">Cloture</th>
-                <th scope="col">inscrits/places</th>
-                <th scope="col">Etat</th>
+                <th scope="col">Date clôture inscriptions</th>
+                <th scope="col">Inscrits/Places dispo</th>
+                <th scope="col">État de la sortie</th>
                 <th scope="col">Inscrit</th>
                 <th scope="col">Organisateur</th>
                 <th scope="col" colspan="2" style="text-align: center">Actions</th>
@@ -77,18 +78,19 @@
                     <td>{{ sortie.etat.libelle }}</td>
                     <td>{% if app.user in sortie.participants %}X{% endif %}</td>
                     <td>{{ sortie.organisateur.username }}</td>
+
                     {% if app.user in sortie.participants %}
                         {% if sortie.dateDebut > date() %}
                             <td><a href="/sedesister/{{ sortie.id }}">Se désister</a></td>
                         {% endif %}
                     {% else  %}
-                        {% if sortie.etat.libelle != "Ouverte" %}
-                            <td><p>Clôturé</p></td>
-                        {% else %}
+                        {% if sortie.etat.libelle == "Ouverte" and sortie.participants|length < sortie.nbinscriptionsmax %}
                             <td><a href="/participer/{{ sortie.id }}">S'inscrire</a></td>
+                        {% else %}
+                            <td><p>Inscriptions clôturées</p></td>
                         {% endif %}
                     {% endif %}
-                    <td><a href="sortie/detailsortie/{{ sortie.id }}">Afficher</a></td>
+                    <td><a href="sortie/detailsortie/{{ sortie.id }}">Afficher détails</a></td>
                 </tr>
             {% endfor %}
 

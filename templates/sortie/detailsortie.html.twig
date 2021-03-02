@@ -62,7 +62,7 @@
         <!-- Ou qu'il renvoie sur le profil (affichage uniquement) s'il clique sur le pseudo d'un autre user -->
         {% for participants in sortie.participants %}
             <tr>
-                {% if participants.id == app.user.id%}
+                {% if app.user and participants.id == app.user.id %}
                     <td><a href="{{ path('profil') }}">{{ participants.username }}</a></td>
                 {% else %}
                     <td><a href="{{ path('profilAutreUser', {'username': participants.username}) }}">{{ participants.username }}</a></td>

@@ -1,39 +1,47 @@
 {% extends'base.html.twig' %}
 
+{% block title %} {{ parent() }} | Mon profil {% endblock %}
+
 {% block body %}
 
-<div class="container">
-    <div class="row text-center">
-        <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 ">
-        <p>Pseudo : {{ app.user.username }}</p>
-        <p>Nom : {{ app.user.nom }}</p>
-        <p>Prénom : {{ app.user.prenom }}</p>
-        <p>Téléphone : {{ app.user.telephone }}</p>
-        <p>Email : {{ app.user.mail }}</p>
-        <p>Site de rattachement : {{ app.user.site.nom }}</p>
-        <div><img class="img-thumbnail" style="width: 200px" src="{{ asset('/uploads/images/'~ app.user.image) }}" alt="image"></div>
+<h5 style="text-align: center">Mon profil</h5>
+    <div class="container d-flex justify-content-around">
+        <div class="col-5 ">
+            <div class="d-flex flex-row bd-highlight mb-2">
+                <div class="p-2 bd-highlight">
+                    <p class="m-2">Pseudo : {{ app.user.username }}</p>
+                    <p class="m-2">Nom : {{ app.user.nom }}</p>
+                    <p class="m-2">Prénom : {{ app.user.prenom }}</p>
+                    <p class="m-2">Téléphone : {{ app.user.telephone }}</p>
+                    <p class="m-2">Email : {{ app.user.mail }}</p>
+                    <p class="m-2">Site de rattachement : {{ app.user.site.nom }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-5 ">
+            <div class="d-flex flex-row bd-highlight mb-2">
+                <div class="p-2 bd-highlight">
+                    <div>
+                       <img class="img-thumbnail" style="width: 200px" src="{{ asset('/uploads/images/'~ app.user.image) }}" alt="image">
+                    </div>
+                        <a href="{{ url('modification') }}" class="card-link">Modifier</a>
+                </div>
+            </div>
         </div>
     </div>
-</div>
-<div class="container">
-    <div class="row text-center">
-        <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 ">
-            <a href="{{ url('modification') }}" class="card-link">Modifier</a>
-        </div>
-    </div>
-</div>
+
 <div style="overflow-x:auto; margin-top: 3%">
-    <h5 style="text-align: center">Brouillons : </h5>
+    <h5 style="text-align: center">Mes brouillons</h5>
     <table style="width: 100%;text-align: center" class="m-auto border table table-hover">
         <thead>
         <tr>
-            <th scope="col">Nom de la sortie</th>
-            <th scope="col">Date de la sortie</th>
-            <th scope="col">Cloture</th>
-            <th scope="col">inscrits/places</th>
-            <th scope="col">Etat</th>
-            <th scope="col">Inscrit</th>
-            <th scope="col">Organisateur</th>
+            <th style="width: 60%;text-align: center;margin-right: auto; margin-left: auto" scope="col">Nom de la sortie</th>
+            <th style="width: 150%;text-align: center" scope="col">Date de la sortie</th>
+            <th style="width: 150%;text-align: center" scope="col">Clôture des inscriptions</th>
+            <th style="width: 50%;text-align: center" scope="col">Inscrits/Places dispo</th>
+            <th style="width: 100%;text-align: center" scope="col">État de la sortie</th>
+            <th style="width: 100%;text-align: center" scope="col">Inscrit</th>
+            <th style="width: 100%;text-align: center" scope="col">Organisateur</th>
             <th scope="col" colspan="2" style="text-align: center">Actions</th>
         </tr>
         </thead>
@@ -42,17 +50,17 @@
             <tr>
                 <td>{{ sortie.nom }}</td>
                 <td>{{ sortie.datedebut|date('d/m/Y H:i') }}</td>
-                <td>{{ sortie.dateLimiteInscription|date('d/m/Y H:i') }}</td>
+                <td>{{ sortie.dateLimiteInscription|date('d/m/Y') }}</td>
                 <td>{{ sortie.participants|length~"/"~sortie.nbinscriptionsmax }}</td>
                 <td>{{ sortie.etat.libelle }}</td>
                 <td>{% if app.user in sortie.participants %}X{% endif %}</td>
                 <td>{{ sortie.organisateur.username }}</td>
-                <td><a href="sortie/detailsortie/{{ sortie.id }}">Afficher</a></td>
+                <td><a href="sortie/detailsortie/{{ sortie.id }}">Afficher détails</a></td>
             </tr>
         {% endfor %}
 
         </tbody>
     </table>
 
-
+</div>
 {% endblock %}
