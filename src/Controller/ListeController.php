@@ -74,7 +74,7 @@ class ListeController extends AbstractController
             $id = $request ->get('id');
             $site = $em->getRepository('App:Site')->findBy(['id'=>$id]);
             $sites = $em ->getRepository('App:Site')->findAll();
-            $liste = $em -> getRepository('App:Sortie')->findBy(['site'=> $site]);
+            $liste = $em -> getRepository(Sortie::class)->getpublieSite($id);
             return $this->render('liste/index.html.twig', [
                 'liste' => $liste,'sites'=>$sites]);
         }

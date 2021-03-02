@@ -31,6 +31,17 @@ class SortieRepository extends ServiceEntityRepository
         );
         return $query->getResult();
     }
+    public function getpublieSite($site)
+    {
+        $em = $this -> getEntityManager();
+
+        $query = $em -> createQuery(
+            'SELECT s FROM App\Entity\Sortie s
+        WHERE s.etat > 1 and s.etat < 7 and s.site ='.$site.'
+        ORDER BY s.id DESC'
+        );
+        return $query->getResult();
+    }
     public function getUserEtat($user, $etat)
     {
         return $this->createQueryBuilder('s')
