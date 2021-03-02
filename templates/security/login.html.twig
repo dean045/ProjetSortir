@@ -23,15 +23,13 @@
     <div class="container">
         <div class="row text-center">
             <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                <label for="inputUsername">Pseudo</label>
+                <label for="inputUsername">Identifiant : </label>
                 <input class="size=100" type="text" value="{{ last_username }}" name="username" id="inputUsername" class="form-control" required autofocus>
             </div>
         </div>
-    </div>
-    <div class="container">
         <div class="row text-center">
             <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                <label for="inputPassword">Mot de passe</label>
+                <label for="inputPassword">Mot de passe : </label>
                 <input class="size=100" type="password" name="password" id="inputPassword" class="form-control" required>
             </div>
         </div>
@@ -43,6 +41,13 @@
                 <div class="checkbox mb-3">
                     <label><input type="checkbox" id="remember_me" name="_remember_me"> se souvenir de moi </label>
                 </div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row text-center">
+            <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                <h6><a href="{{ url('app_forgot_password_request') }}">Mot de passe oublié</a></h6>
             </div>
         </div>
     </div>
