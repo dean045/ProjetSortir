@@ -18,7 +18,6 @@ class VilleController extends AbstractController
 
     /**
      * @Route(path="/ville", name="ville", methods={"GET", "POST"})
-     * @IsGranted("ROLE_ADMIN")
      * @param EntityManagerInterface $em
      * @param Request $request
      * @return Response

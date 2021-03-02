@@ -30,18 +30,16 @@
         </div>
     </div>
 
-<div style="overflow-x:auto; margin-top: 3%">
+<div class="mx-auto" style="width:500px; overflow:auto; margin-top: 3%">
     <h5 style="text-align: center">Mes brouillons</h5>
-    <table style="width: 100%;text-align: center" class="m-auto border table table-hover">
+    <table style="text-align: center" class="m-auto border table table-hover">
         <thead>
         <tr>
             <th style="width: 60%;text-align: center;margin-right: auto; margin-left: auto" scope="col">Nom de la sortie</th>
             <th style="width: 150%;text-align: center" scope="col">Date de la sortie</th>
             <th style="width: 150%;text-align: center" scope="col">Clôture des inscriptions</th>
-            <th style="width: 50%;text-align: center" scope="col">Inscrits/Places dispo</th>
             <th style="width: 100%;text-align: center" scope="col">État de la sortie</th>
-            <th style="width: 100%;text-align: center" scope="col">Inscrit</th>
-            <th style="width: 100%;text-align: center" scope="col">Organisateur</th>
+
             <th scope="col" colspan="2" style="text-align: center">Actions</th>
         </tr>
         </thead>
@@ -51,10 +49,8 @@
                 <td>{{ sortie.nom }}</td>
                 <td>{{ sortie.datedebut|date('d/m/Y H:i') }}</td>
                 <td>{{ sortie.dateLimiteInscription|date('d/m/Y') }}</td>
-                <td>{{ sortie.participants|length~"/"~sortie.nbinscriptionsmax }}</td>
                 <td>{{ sortie.etat.libelle }}</td>
-                <td>{% if app.user in sortie.participants %}X{% endif %}</td>
-                <td>{{ sortie.organisateur.username }}</td>
+
                 <td><a href="sortie/detailsortie/{{ sortie.id }}">Afficher détails</a></td>
             </tr>
         {% endfor %}

@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -14,6 +15,7 @@ class AdminController extends AbstractController
 {
     /**
      * @Route("/admin", name="admin", methods={"GET"})
+     * @IsGranted("ROLE_ADMIN")
      */
     public function index(Request $request, EntityManagerInterface $em): Response
     {
