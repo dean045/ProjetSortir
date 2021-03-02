@@ -22,7 +22,6 @@ class SortieController extends AbstractController
 
     /**
      * @Route(path="creer", name="creersortie", methods={"GET", "POST"})
-     * @IsGranted("ROLE_ADMIN")
      */
     public function add(Request $request, EntityManagerInterface $em)
     {
@@ -92,7 +91,6 @@ class SortieController extends AbstractController
 
     /**
      * @Route(name="modifiersortie", path="modifiersortie/{id}", requirements={"id": "\d+"}, methods={"GET", "POST"})
-     * @IsGranted("ROLE_ADMIN")
      */
     public function edit(Request $request, EntityManagerInterface $em)
     {
