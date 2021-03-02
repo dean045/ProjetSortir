@@ -5,8 +5,18 @@
 {% block body %}
 
     {{ form_start(form) }}
-        {{ form_rest(form) }}
+        {{ form_row(form.username) }}
+        {{ form_row(form.nom) }}
+        {{ form_row(form.prenom) }}
+        {{ form_row(form.plainPassword) }}
+        {{ form_row(form.telephone) }}
+        {{ form_row(form.mail) }}
+        {{ form_row(form.site) }}
+        {{ form_row(form.admin) }}
+        {{ form_row(form.actif) }}
+        {{ form_row(form.image) }}
         <button type="submit" class="btn btn-primary text-uppercase btn-block">Inscrire stagiaire</button>
+
     {{ form_end(form) }}
 
 {% endblock %}

@@ -31,16 +31,14 @@ class InscriptionUserType extends AbstractType
             ])
             ->add('admin')
             ->add('actif')
+
             ->add('image', FileType::class, [
                 'label' => 'Photo du profil',
                 'mapped' => false,
                 'required' => false,
-
-                // unmapped fields can't define their validation using annotations
-                // in the associated entity, so you can use the PHP constraint classes
                 'constraints' => [
                     new File([
-                        'maxSize' => '1024k',
+                        'maxSize' => '512k',
                         'mimeTypes' => [
                             'image/*',
                         ],
