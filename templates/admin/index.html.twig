@@ -4,7 +4,7 @@
 
 {% block body %}
     <div style="overflow-x:auto;">
-        <h3 style="text-align: center">Liste des Utilisateurs </h3>
+        <h3 style="text-align: center">Gestion des Utilisateurs </h3>
         <table style="width: 100%;text-align: center" class="m-auto border table table-hover">
             <thead>
             <tr>
@@ -30,10 +30,23 @@
                         <td><input value="{{ user.id }}" type="checkbox"></td>
                     </tr>
                 {% endfor %}
-                <button class="btn btn-outline-primary" id="1" type="none" onclick="activer(this.id)">Activer</button>
-                <button class="btn btn-outline-primary" id="2" type="none" onclick="activer(this.id)">Desactiver
-                </button>
-                <button class="btn btn-outline-primary" id="3" type="none" onclick="activer(this.id)">Supprimer</button>
+                <div class="container d-flex justify-content-around">
+                    <div class="d-flex flex-row bd-highlight">
+                        <a class="btn btn-outline-primary m-2" href="{{ url('inscription') }}">Ajouter un utilisateur
+                        </a>
+                        <a class="btn btn-outline-primary m-2" href="{{ url('upload') }}">Ajouter plusieurs utilisateurs (.csv)
+                        </a>
+                    </div>
+                    <div class="d-flex flex-row-reverse bd-highlight">
+                        <button class="btn btn-outline-danger m-2" id="3" type="none" onclick="activer(this.id)">Supprimer
+                        </button>
+                        <button class="btn btn-outline-primary m-2" id="2" type="none" onclick="activer(this.id)">Desactiver
+                        </button>
+                        <button class="btn btn-outline-primary m-2" id="1" type="none" onclick="activer(this.id)">Activer
+                        </button>
+                    </div>
+                </div>
+
             </form>
             </tbody>
         </table>
@@ -67,13 +80,11 @@
                     msg = " ont été supprimé(s).";
                     break;
             }
-            if(id == 3)
-            {
-                if (!confirm("Vous êtes sur le point de supprimer "+item_checked+" utilisateurs."))
+            if (id == 3) {
+                if (!confirm("Vous êtes sur le point de supprimer " + item_checked + " utilisateurs."))
                     check = false;
             }
-            if(check==true)
-            {
+            if (check == true) {
                 $.ajax({
                     url: path,
                     data: {liste: tab},
@@ -88,18 +99,15 @@
             }
 
         }
-        function selectAll()
-        {
+
+        function selectAll() {
             let checkall = document.getElementById('selectall');
-            if(checkall.checked === true)
-            {
+            if (checkall.checked === true) {
                 let elchecked = document.forms[0];
                 for (let i = 0; i < elchecked.length; i++) {
                     elchecked[i].checked = true;
                 }
-            }
-            else
-            {
+            } else {
                 let elchecked = document.forms[0];
                 for (let i = 0; i < elchecked.length; i++) {
                     elchecked[i].checked = false;

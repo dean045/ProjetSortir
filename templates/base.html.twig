@@ -20,23 +20,23 @@
 
 <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow">
     <a class="my-0 mr-md-auto font-weight-normal" href="{{ url('liste') }}"><h5 >Eni-Sortie</h5></a>
-    <nav class="my-2 my-md-0 mr-md-3 container d-flex justify-content-around">
+    <nav class="my-2 my-md-0 mr-md-3 container d-flex flex-row-reverse bd-highlight">
         {% if app.user %}
             {% if is_granted('ROLE_ADMIN') %}
-                <div class="dropdown">
+                <div class="dropdown mx-2">
                     <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Panel admin
                     </button>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <a class="dropdown-item" href="{{ url('inscription') }}">Ajouter un utilisateur</a>
-                        <a class="dropdown-item" href="{{ url('upload') }}">Import csv</a>
+                    <div class="dropdown-menu " aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item" href="{{ url('admin') }}">Gestion des utilisateurs</a>
                         <a class="dropdown-item" href="{{ url('ville') }}">Ajouter une ville</a>
                         <a class="dropdown-item" href="{{ url('site') }}">Ajouter un site</a>
                     </div>
                 </div>
             {% endif %}
-            <a href="{{ url('creersortie') }}">Ajouter une sortie</a>
-            <a href="{{ url('profil') }}">Mon profil</a>
+            <a class="btn btn-primary mx-2" href="{{ url('creersortie') }}">Ajouter une sortie</a>
+            <a class="btn btn-primary mx-2" href="{{ url('profil') }}">Mon profil</a>
+
         {% endif %}
 
     </nav>
