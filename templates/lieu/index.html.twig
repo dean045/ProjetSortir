@@ -1,0 +1,79 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ville{% endblock %}
+
+{% block body %}
+
+<h1 style="text-align: center">Lieu</h1>
+
+{% for message in app.flashes('success') %}
+    <div class="alert alert-success">
+        {{ message }}
+    </div>
+{% endfor %}
+
+    <div>
+    <div class="row d-flex justify-content-center">
+        <input type="text" id="myInput" onkeyup="triLieu()" placeholder="Rechercher lieu">
+    </div>
+    <div>
+        <table id="myTable" style="width: 80%;text-align: center" class="m-auto border table table-hover">
+            <thead>
+            <tr>
+                <th scope="col">Nom</th>
+                <th scope="col">Rue</th>
+                <th scope="col">Latitude</th>
+                <th scope="col">Longitude</th>
+                <th scope="col">Ville associée</th>
+                <th scope="col" colspan="2" style="text-align: center">Actions</th>
+            </tr>
+            </thead>
+            <tbody id="myTable">
+            {% for lieu in lieu %}
+                <tr>
+                    <td scope="row">{{ lieu.nom }}</td>
+                    <td>{{ lieu.rue }}</td>
+                    <td>{{ lieu.latitute }}</td>
+                    <td>{{ lieu.longitude }}</td>
+                    <td><a href="{{ url('update_lieu', {'id': lieu.id})}}">Modifier</a></td>
+                    <td><a href="{{ url('delete_lieu', {'id': lieu.id})}}">Supprimer</a></td>
+
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+    {{ form_start(form) }}
+        <p>{{ form_row(form.nom) }}</p>
+        <p>{{ form_row(form.rue) }}</p>
+        <p>{{ form_row(form.latitute) }}</p>
+        <p>{{ form_row(form.longitude) }}</p>
+        <p>{{ form_row(form.ville) }}</p>
+        <button type="submit" class="btn btn-primary text-uppercase btn-block">Ajouter</button>
+    {{ form_end(form) }}
+
+    <script>
+        function triLieu() {
+            // Declare variables
+            var input, filter, table, tr, td, i, txtValue;
+            input = document.getElementById("myInput");
+            filter = input.value.toUpperCase();
+            table = document.getElementById("myTable");
+            tr = table.getElementsByTagName("tr");
+
+            // Loop through all table rows, and hide those who don't match the search query
+            for (i = 0; i < tr.length; i++) {
+                td = tr[i].getElementsByTagName("td")[0];
+                if (td) {
+                    txtValue = td.textContent || td.innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
+        }
+    </script>
+
+{% endblock body %}

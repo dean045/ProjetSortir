@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Lieu;
+use App\Entity\Ville;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
@@ -15,13 +16,13 @@ class LieuType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            /*
+
             ->add('nom', TextType::class, [
                 'label' => 'Nom du lieu :',
                 'trim' => true,
                 'required' => true,
              ])
-            */
+
 
             ->add('rue', TextType::class, [
                 'label' => 'Nom de la rue :',
@@ -41,7 +42,7 @@ class LieuType extends AbstractType
                 'required' => true,
             ])
             ->add('ville', EntityType::class,[
-                'class' => Lieu::class,
+                'class' => Ville::class,
                 'choice_label' => 'nom',
             ])
         ;
