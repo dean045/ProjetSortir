@@ -35,8 +35,11 @@
                     <td>{{ lieu.rue }}</td>
                     <td>{{ lieu.latitute }}</td>
                     <td>{{ lieu.longitude }}</td>
-                    <td><a href="{{ url('update_lieu', {'id': lieu.id})}}">Modifier</a></td>
-                    <td><a href="{{ url('delete_lieu', {'id': lieu.id})}}">Supprimer</a></td>
+                    <td>{{ lieu.ville.nom }}</td>
+                    <td>
+                        <a href="{{ url('update_lieu', {'id': lieu.id})}}">Modifier</a>
+                        <a href="{{ url('delete_lieu', {'id': lieu.id})}}">Supprimer</a>
+                    </td>
 
                 </tr>
             {% endfor %}
