@@ -26,7 +26,8 @@
             <a class="btn btn-primary mx-2" href="{{ url('creersortie') }}">Ajouter une sortie</a>
             {% if is_granted('ROLE_ADMIN') %}
                 <div class="dropdown mx-2">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Panel admin
                     </button>
                     <div class="dropdown-menu " aria-labelledby="dropdownMenuButton">
@@ -36,6 +37,7 @@
                     </div>
                 </div>
             {% endif %}
+
         {% endif %}
 
     </nav>

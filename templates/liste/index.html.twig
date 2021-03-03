@@ -5,9 +5,9 @@
 {% block body %}
 
     <h5>Filtrer les sorties</h5>
-    <div class="container d-flex justify-content-around">
+    <div class="container d-flex justify-content-around border border-info rounded">
         <div class="col-6">
-            <div class="row">
+            <div class="row d-flex justify-content-center">
                 <div class="dropdown">
                     <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -18,22 +18,25 @@
                             <a class="dropdown-item" href="/{{ site.id }}">{{ site.nom }}</a>
                         {% endfor %}
                     </div>
-                    <p><label for="myInput">Le nom de la sortie contient :</label>
-                    <input type="text" id="myInput" onkeyup="tri()" placeholder="rechercher"></p>
-                    <p><label for="date-debut">Entre</label>
-                    <input type="date" id="date-debut" onchange="tri()">
-
-                    <label for="date-fin">et</label>
-                    <input type="date" id="date-fin" onchange="tri()"></p>
                 </div>
             </div>
 
-
-            <div class="row d-flex justify-content-around my-auto" style="width: 100%">
-
+            <div class="row  d-flex flex-row justify-content-center my-2">
+                <label for="myInput" class="mx-2">Le nom de la sortie contient : </label>
+                <input type="text" id="myInput" onkeyup="tri()" placeholder="rechercher">
+            </div>
+            <div class="row d-flex justify-content-center m-2" style="width: 100%">
+                <div>
+                    <label for="date-debut">Entre</label>
+                    <input type="date" id="date-debut" onchange="tri()">
+                </div>
+                <div>
+                    <label for="date-fin">et</label>
+                    <input type="date" id="date-fin" onchange="tri()">
+                </div>
             </div>
         </div>
-        <div class="col-6">
+        <div class="col-5 my-auto ">
             <div>
                 <input type="checkbox" checked id="organisateur" onclick="tri()">
                 <label for="organisateur">Sorties dont je suis l'organisateur/trice</label>
