@@ -128,6 +128,32 @@ class SortieController extends AbstractController
     }
 
     /**
+     * @Route(name="supprimersortie", path="suppression/{id}", requirements={"id":"\d+"})
+     */
+    public function delete(Sortie $sortie, EntityManagerInterface $em) {
+        $em->remove($sortie);
+
+        $em->flush();
+
+        $this->addFlash('success', 'Le brouillon a été supprimé!');
+
+        return $this->redirectToRoute('profil', ['id' => $sortie->getId()]);
+    }
+
+    /**
+     * @Route(name="publiersortie", path="publication/{id}", requirements={"id":"\d+"})
+     */
+    public function post(Request $request, EntityManagerInterface $em){
+        $id = $request -> get('id');
+        $sortie = $em -> getRepository('App:Sortie') -> findOneBy(["id" => $id]);
+        $etat = $em->getRepository('App:Etat')->findOneBy(["id" => 2]);
+        $sortie -> setEtat($etat);
+        $em->flush();
+        $this->addFlash('success', 'Votre sortie a été publiée!');
+        return $this->redirectToRoute('profil', ['id' => $sortie->getId()]);
+    }
+
+    /**
      * @Route(name="lieu", path="lieu", methods={"GET", "POST"})
      */
     public function getlieu(Request $request, LieuRepository $repository, SerializerInterface $serializer): Response

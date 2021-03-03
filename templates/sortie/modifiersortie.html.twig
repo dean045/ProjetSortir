@@ -5,102 +5,40 @@
 {% block body %}
 
     {{ form_start(SortieForm) }}
-
     <div class="container d-flex justify-content-around">
         <div class="col-6 ">
             <div class="d-flex flex-row bd-highlight mb-3">
-                <div class="p-0 bd-highlight">
-                    {{ form_row(SortieForm.nom) }}
+                <div class="p-2 bd-highlight">
+                    <p>{{ form_row(SortieForm.nom) }}</p>
+                    <p>{{ form_row(SortieForm.nbinscriptionsmax) }}</p>
+                    <p>{{ form_row(SortieForm.duree) }}</p>
+                    <p>{{ form_row(SortieForm.description) }}</p>
+                    <p>{{ form_row(SortieForm.datedebut) }}</p>
+                    <p>{{ form_row(SortieForm.dateLimiteInscription) }}</p>
                 </div>
             </div>
-
-            <div class="d-flex flex-row bd-highlight mb-3">
-                <div class="p-0 bd-highlight">
-                    {{ form_row(SortieForm.nbinscriptionsmax) }}
-                </div>
-            </div>
-
-            <div class="d-flex flex-row bd-highlight mb-3">
-                <div class="p-0 bd-highlight">
-                    {{ form_row(SortieForm.duree) }}
-                </div>
-            </div>
-
-            <div class="d-flex flex-row bd-highlight mb-3">
-                <div class="p-0 bd-highlight">
-                    {{ form_row(SortieForm.description) }}
-                </div>
-            </div>
-
-            <div class="d-flex flex-row bd-highlight mb-3">
-                <div class="p-0 bd-highlight">
-                    {{ form_row(SortieForm.datedebut) }}
-                </div>
-            </div>
-
-            <div class="d-flex flex-row bd-highlight mb-3">
-                <div class="p-0 bd-highlight">
-                    {{ form_row(SortieForm.dateLimiteInscription) }}
-                </div>
-            </div>
-
-            <div class="d-flex flex-row bd-highlight mb-3">
-                <div class="p-0 bd-highlight">
-                    {{ form_row(SortieForm.Publier) }}
-                </div>
-            </div>
-            {% if sortie.etat.id != 0 %}
-            <div class="d-flex flex-row bd-highlight mb-3">
-                <div class="p-0 bd-highlight">
-                    {{ form_row(SortieForm.Enregistrer) }}
-                </div>
-            </div>
-            {% endif %}
-
         </div>
-
 
         <div class="col-5 ">
             <div class="d-flex flex-row bd-highlight mb-3">
-                <div class="p-0 bd-highlight">
-                    {{ form_row(SortieForm.lieu) }}
-                </div>
-            </div>
-
-            <div class="d-flex flex-row bd-highlight mb-3">
-                <div class="p-0 bd-highlight">
+                <div class="p-2 bd-highlight">
+                    <p>{{ form_row(SortieForm.lieu) }}</p>
+                    <a href="{{ url('ajout_lieu') }}">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-square-fill" viewBox="0 0 16 16">
+                            <path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm6.5 4.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3a.5.5 0 0 1 1 0z"/>
+                        </svg>
+                    </a>
                     <p id = "ville">Ville : </p>
-                </div>
-            </div>
-
-            <div class="d-flex flex-row bd-highlight mb-3">
-                <div class="p-0 bd-highlight">
                     <p id = "rue">Rue :</p>
-                </div>
-            </div>
-
-            <div class="d-flex flex-row bd-highlight mb-3">
-                <div class="p-0 bd-highlight">
                     <p id = "cp">Code Postal :</p>
-                </div>
-            </div>
-
-            <div class="d-flex flex-row bd-highlight mb-3">
-                <div class="p-0 bd-highlight">
                     <p id = "latitude">Latitude :</p>
-                </div>
-            </div>
-
-            <div class="d-flex flex-row bd-highlight mb-3">
-                <div class="p-0 bd-highlight">
                     <p id = "longitude">Longitude :</p>
+                    <p> {{ form_row(SortieForm.Publier) }} </p>
+                    <p> {{ form_row(SortieForm.Enregistrer) }} </p>
                 </div>
             </div>
         </div>
     </div>
-    <div class="d-flex justify-content-around">
-        {{ form_row(SortieForm.Publier) }}
-        {{ form_row(SortieForm.Enregistrer) }}
     </div>
     {{ form_end(SortieForm) }}
     <script>
