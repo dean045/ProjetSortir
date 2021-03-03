@@ -28,7 +28,7 @@ class VilleController extends AbstractController
         if ($this->isGranted('ROLE_ADMIN')) {
             $user = $this->getUser();
 
-            $ville = $em -> getRepository('App:Ville')->findAll();
+            $ville = $em -> getRepository('App:Ville')->findtrie();
             $ville2 = new Ville();
             $form = $this->createForm(VilleType::class, $ville2);
 
