@@ -26,7 +26,7 @@
             <tbody id="myTable">
             {% for site in site %}
                 <tr>
-                    <td scope="row">{{ site.nom }}</td>
+                    <td scope="row"><div id="ordre">{{ site.nom }}</div></td>
                     <td><a href="{{ url('site_update', {'id': site.id})}}">Modifier</a></td>
                     <td><a href="{{ url('site_delete', {'id': site.id})}}">Supprimer</a></td>
                 </tr>
@@ -63,6 +63,13 @@
                     }
                 }
             }
+        }
+
+        function triAlphabet(){
+            var ordre = document.getElementById("ordre");
+
+
+            console.log(ordre.sort() + "\n\n");
         }
     </script>
     </div>

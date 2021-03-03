@@ -4,11 +4,11 @@
 
 {% block body %}
 
+    <h5>Filtrer les sorties</h5>
     <div class="container d-flex justify-content-around border border-info rounded">
         <div class="col-6">
             <div class="row d-flex justify-content-center">
                 <div class="dropdown">
-                    <h5>Filtrer les sorties</h5>
                     <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Site organisateur :
@@ -61,34 +61,34 @@
         <table style="width: 100%;text-align: center" class="m-auto border table table-hover">
             <thead>
             <tr>
-                <th scope="col">Nom de la sortie</th>
-                <th scope="col">Date de la sortie</th>
-                <th scope="col">Date clôture inscriptions</th>
-                <th scope="col">Inscrits/Places dispo</th>
-                <th scope="col">État de la sortie</th>
-                <th scope="col">Inscrit</th>
-                <th scope="col">Organisateur</th>
-                <th scope="col" colspan="2" style="text-align: center">Actions</th>
+                <th scope="col" class="align-middle">Nom de la sortie</th>
+                <th scope="col" class="align-middle">Date de la sortie</th>
+                <th scope="col" class="align-middle">Date clôture inscriptions</th>
+                <th scope="col" class="align-middle">Inscrits/Places dispo</th>
+                <th scope="col" class="align-middle">État de la sortie</th>
+                <th scope="col" class="align-middle">Inscrit</th>
+                <th scope="col" class="align-middle">Organisateur</th>
+                <th scope="col" colspan="2" class="align-middle">Actions</th>
             </tr>
             </thead>
             <tbody id="myTable">
             {% for sortie in liste %}
                 <tr>
-                    <td>{{ sortie.nom }}</td>
-                    <td>{{ sortie.datedebut|date('d/m/Y H:i') }}</td>
-                    <td>{{ sortie.dateLimiteInscription|date('d/m/Y H:i') }}</td>
-                    <td>{{ sortie.participants|length~"/"~sortie.nbinscriptionsmax }}</td>
-                    <td>{{ sortie.etat.libelle }}</td>
-                    <td>{% if app.user in sortie.participants %}X{% endif %}</td>
-                    <td>{{ sortie.organisateur.username }}</td>
+                    <td class="align-middle">{{ sortie.nom }}</td>
+                    <td class="align-middle">{{ sortie.datedebut|date('d/m/Y H:i') }}</td>
+                    <td class="align-middle">{{ sortie.dateLimiteInscription|date('d/m/Y H:i') }}</td>
+                    <td class="align-middle">{{ sortie.participants|length~"/"~sortie.nbinscriptionsmax }}</td>
+                    <td class="align-middle">{{ sortie.etat.libelle }}</td>
+                    <td class="align-middle">{% if app.user in sortie.participants %}X{% endif %}</td>
+                    <td class="align-middle">{{ sortie.organisateur.username }}</td>
 
                     {% if app.user in sortie.participants %}
                         {% if sortie.dateDebut > date() %}
-                            <td><a href="/sedesister/{{ sortie.id }}">Se désister</a></td>
+                            <td class="align-middle"><a href="/sedesister/{{ sortie.id }}">Se désister</a></td>
                         {% endif %}
                     {% else  %}
                         {% if sortie.etat.libelle == "Ouverte" and sortie.participants|length < sortie.nbinscriptionsmax %}
-                            <td><a href="/participer/{{ sortie.id }}">S'inscrire</a></td>
+                            <td class="align-middle"><a href="/participer/{{ sortie.id }}">S'inscrire</a></td>
                         {% else %}
                             <td><p>Inscriptions clôturées</p></td>
                         {% endif %}
