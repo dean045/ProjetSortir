@@ -37,7 +37,7 @@ class SortieController extends AbstractController
         $sortie->setOrganisateur($this->getUser());
         $user = $this->getUser();
         $sortie->setSite($user->getSite());
-        $lieux= $em->getRepository('App:Lieu')->findAll();
+        $lieux= $em->getRepository('App:Lieu')->findtrie();
         // Création du formulaire
         $form = $this->createForm('App\Form\SortieType', $sortie);
 
@@ -97,7 +97,7 @@ class SortieController extends AbstractController
         $id = $request->get('id');
         $sortie = $em->getRepository('App:Sortie')->findOneBy(["id" => $id]);
         $form = $this->createForm(SortieType::class, $sortie);
-        $lieux= $em->getRepository('App:Lieu')->findAll();
+        $lieux= $em->getRepository('App:Lieu')->findtrie();
         $form->handleRequest($request);
 
 

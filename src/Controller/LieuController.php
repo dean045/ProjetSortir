@@ -23,10 +23,10 @@ class LieuController extends AbstractController
 
     public function index(Request $request, EntityManagerInterface $em)
     {
-        if ($this->isGranted('ROLE_ADMIN')) {
+        if ($this->isGranted('ROLE_USER')) {
             $user = $this->getUser();
 
-            $lieu1 = $em -> getRepository('App:Lieu')->findAll();
+            $lieu1 = $em -> getRepository(Lieu::class)->findtrie();
             $lieu2 = new Lieu();
             $form = $this->createForm(LieuType::class, $lieu2);
 

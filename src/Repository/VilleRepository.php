@@ -23,19 +23,15 @@ class VilleRepository extends ServiceEntityRepository
     // /**
     //  * @return Ville[] Returns an array of Ville objects
     //  */
-    /*
-    public function findByExampleField($value)
+    public function findtrie()
     {
         return $this->createQueryBuilder('v')
-            ->andWhere('v.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('v.id', 'ASC')
-            ->setMaxResults(10)
+            ->orderBy('v.nom', 'ASC')
             ->getQuery()
             ->getResult()
         ;
     }
-    */
+
 
     /*
     public function findOneBySomeField($value): ?Ville
