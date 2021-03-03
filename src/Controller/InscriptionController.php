@@ -113,12 +113,14 @@ class InscriptionController extends AbstractController
                 }
                 else{
                     $this->addFlash('warning', "L'ajout d'utilisateur s'est arrété à la ligne ".$ligne." car les données saisies ne sont pas valides.");
-                    return $this->redirectToRoute('liste');
+                    $file = $fileUploader->deleteFile($_SERVER['DOCUMENT_ROOT']."\uploads\images/".$file);
+                    return $this->redirectToRoute('admin');
                 }
                 $ligne++;
             }
             $this->addFlash('success', $ligne." utilisateurs ont été inscrit.");
-            return $this->redirectToRoute('liste');
+            $file = $fileUploader->deleteFile($_SERVER['DOCUMENT_ROOT']."\uploads\images/".$file);
+            return $this->redirectToRoute('admin');
         }
 
         return $this->render('inscription/upload.html.twig', ['form' => $form->createView(),]);

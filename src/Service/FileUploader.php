@@ -2,6 +2,8 @@
 
 namespace App\Service;
 
+use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
@@ -27,6 +29,14 @@ class FileUploader
         }
 
         return $fileName;
+    }
+    public function deleteFile(string $path)
+    {
+        $fs = new Filesystem();
+        $result = $fs->remove($path);
+        if ($result === false) {
+            throw new \Exception(sprintf('Error deleting "%s"', $path));
+        }
     }
 
     public function getTargetDirectory()

@@ -14,7 +14,7 @@ class UploadType extends AbstractType
     {
         $builder
             ->add('import', FileType::class, [
-                'label' => 'Date de début de sortie :',
+                'label' => 'Fichier .csv : ',
                 'required' => false,
             ]);
     }
