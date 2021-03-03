@@ -50,9 +50,11 @@ class InscriptionController extends AbstractController
                     $editUser->getPlainPassword()
                 )
             );
-            if ($form->get('admin') == true) {
-                $editUser->setRoles(["ROLE_ADMIN"]);
-            }
+
+            $editUser->setRoles(["ROLE_USER"]);
+            $editUser->setActif(true);
+            $editUser->setAdmin(false);
+
             $editUser = $form->getData();
             $em = $this->getDoctrine()->getManager();
             $em->persist($editUser);
@@ -71,7 +73,7 @@ class InscriptionController extends AbstractController
      * @param Request $request
      * @return Response
      */
-    public function upload(EntityManagerInterface $em, Request $request,ValidatorInterface $validator, FileUploader $fileUploader, UserPasswordEncoderInterface $passwordEncoder): Response
+    public function upload(EntityManagerInterface $em, Request $request, ValidatorInterface $validator, FileUploader $fileUploader, UserPasswordEncoderInterface $passwordEncoder): Response
     {
         $form = $this->createForm(UploadType::class);
         $form->handleRequest($request);
@@ -82,7 +84,7 @@ class InscriptionController extends AbstractController
             $ligne = 0;
 
 
-            $csv = Reader::createFromPath($_SERVER['DOCUMENT_ROOT']."\uploads\images/".$file)
+            $csv = Reader::createFromPath($_SERVER['DOCUMENT_ROOT'] . "\uploads\images/" . $file)
                 ->setHeaderOffset(0);
 
             foreach ($csv as $record) {
@@ -96,7 +98,7 @@ class InscriptionController extends AbstractController
                 $user->setActif(true);
                 $user->setAdmin(false);
                 $user->setImage("aucune");
-                $site = $em->getRepository('App:Site')->findOneBy(['nom'=>$record['site']]);
+                $site = $em->getRepository('App:Site')->findOneBy(['nom' => $record['site']]);
                 $user->setSite($site);
                 $user->setPassword(
                     $passwordEncoder->encodePassword(
@@ -110,16 +112,15 @@ class InscriptionController extends AbstractController
                     $em = $this->getDoctrine()->getManager();
                     $em->persist($user);
                     $em->flush();
-                }
-                else{
-                    $this->addFlash('warning', "L'ajout d'utilisateur s'est arrété à la ligne ".$ligne." car les données saisies ne sont pas valides.");
-                    $file = $fileUploader->deleteFile($_SERVER['DOCUMENT_ROOT']."\uploads\images/".$file);
+                } else {
+                    $this->addFlash('warning', "L'ajout d'utilisateur s'est arrété à la ligne " . $ligne . " car les données saisies ne sont pas valides.");
+                    $file = $fileUploader->deleteFile($_SERVER['DOCUMENT_ROOT'] . "\uploads\images/" . $file);
                     return $this->redirectToRoute('admin');
                 }
                 $ligne++;
             }
-            $this->addFlash('success', $ligne." utilisateurs ont été inscrit.");
-            $file = $fileUploader->deleteFile($_SERVER['DOCUMENT_ROOT']."\uploads\images/".$file);
+            $this->addFlash('success', $ligne . " utilisateurs ont été inscrit.");
+            $file = $fileUploader->deleteFile($_SERVER['DOCUMENT_ROOT'] . "\uploads\images/" . $file);
             return $this->redirectToRoute('admin');
         }
 

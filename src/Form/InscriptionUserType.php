@@ -51,8 +51,6 @@ class InscriptionUserType extends AbstractType
                 'choice_label' => 'nom',
                 'label' => 'Site :'
             ])
-            ->add('admin')
-            ->add('actif')
 
             ->add('image', FileType::class, [
                 'label' => 'Photo du profil :',

@@ -19,12 +19,16 @@
 <body>
 
 <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-0 bg-white border-bottom box-shadow">
-    <a class="my-0 mr-md-auto font-weight-normal" href="{{ url('liste') }}"><h5 >Eni-Sortie</h5></a>
+    <a class="my-0 mr-md-auto font-weight-normal" href="{{ url('liste') }}"><h5>Eni-Sortie</h5></a>
     <nav class="my-2 my-md-0 mr-md-3 container d-flex flex-row-reverse bd-highlight">
         {% if app.user %}
+
+            <a class="btn btn-primary mx-2" href="{{ url('profil') }}">Mon profil</a>
+            <a class="btn btn-primary mx-2" href="{{ url('creersortie') }}">Ajouter une sortie</a>
             {% if is_granted('ROLE_ADMIN') %}
                 <div class="dropdown mx-2">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Panel admin
                     </button>
                     <div class="dropdown-menu " aria-labelledby="dropdownMenuButton">
@@ -34,8 +38,6 @@
                     </div>
                 </div>
             {% endif %}
-            <a class="btn btn-primary mx-2" href="{{ url('creersortie') }}">Ajouter une sortie</a>
-            <a class="btn btn-primary mx-2" href="{{ url('profil') }}">Mon profil</a>
 
         {% endif %}
 
@@ -65,7 +67,9 @@
     {% block body %}{% endblock %}
 
     <footer class="pt-4 my-md-4 pt-md-2 border-top">
-        <div align="center">Eni-Sortie © 2021 - Brahim Hajji Baba, Justin Renault, Gabriel Manchelin - Tous droits réservés</div>
+        <div align="center">Eni-Sortie © 2021 - Brahim Hajji Baba, Justin Renault, Gabriel Manchelin - Tous droits
+            réservés
+        </div>
     </footer>
 </div>
 

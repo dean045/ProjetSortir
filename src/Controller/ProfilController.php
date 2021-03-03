@@ -111,8 +111,6 @@ class ProfilController extends AbstractController
                         if ($cloneuser->getTelephone())
                             $editUser->setTelephone($cloneuser->getTelephone());
                         $editUser->setMail($cloneuser->getMail());
-                        $editUser->setAdmin($cloneuser->getAdmin());
-                        $editUser->setActif($cloneuser->getActif());
                         $entityManager->flush();
                     } else{
                         $this->addFlash('warning', 'Attention votre profil n\'a pas été modifié, veuillez saisir votre mot de passe ou un nouveau mot de passe avec 8 caractères minimum !');
