@@ -32,6 +32,9 @@
 
 <div style="overflow-x:auto;" class="mx-auto" style="width:500px; overflow:auto; margin-top: 3%">
     <h5 style="text-align: center">Mes brouillons</h5>
+    {% if liste|length == 0 %}
+        <p class="d-flex justify-content-center">Vous n'avez aucun brouillon enregistré pour le moment.</p>
+    {% else %}
     <table style="text-align: center" class="m-auto border table table-hover">
         <thead>
         <tr>
@@ -57,4 +60,5 @@
     </table>
 
 </div>
+    {% endif %}
 {% endblock %}
