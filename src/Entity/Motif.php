@@ -22,6 +22,11 @@ class Motif
      */
     private $name;
 
+    /**
+     * @ORM\OneToOne(targetEntity=Sortie::class, inversedBy="motif", cascade={"persist", "remove"})
+     */
+    private $sortie;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -35,6 +40,18 @@ class Motif
     public function setName(string $name): self
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    public function getSortie(): ?Sortie
+    {
+        return $this->sortie;
+    }
+
+    public function setSortie(?Sortie $sortie): self
+    {
+        $this->sortie = $sortie;
 
         return $this;
     }

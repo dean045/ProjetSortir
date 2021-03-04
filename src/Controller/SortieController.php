@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Motif;
 use App\Entity\Sortie;
 use App\Form\SortieType;
 use App\Repository\LieuRepository;
@@ -114,14 +115,17 @@ class SortieController extends AbstractController
     }
 
     /**
-     * @Route(name="annulersortie", path="annulersortie/{id}", requirements={"id": "\d+"}, methods={"GET", "POST"})
+     * @Route(name="annulersortie", path="annulersortie", methods={"POST"})
      */
     public function cancel(Request $request, EntityManagerInterface $em)
     {
         $id = $request->get('id');
+        $motif = new Motif();
+        $motif->setName($request->get('motif'));
         $sortie = $em->getRepository('App:Sortie')->findOneBy(["id" => $id]);
         $etat = $em->getRepository('App:Etat')->findOneBy(["id" => 6]);
         $sortie -> setEtat($etat);
+        $sortie -> setMotif($motif);
         $em->flush();
         $this->addFlash('Success', 'Votre sortie a été annulée avec succès');
         return $this->redirectToRoute('detailsortie', ['id' => $sortie->getId()]);

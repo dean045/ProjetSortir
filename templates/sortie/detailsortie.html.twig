@@ -1,80 +1,108 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{parent()}} | Détails de sortie{% endblock %}
+{% block title %}{{ parent() }} | Détails de sortie{% endblock %}
 
 {% block body %}
+    {% if sortie.motif %}
+        <div class="alert alert-danger">{{ sortie.motif.name }}</div>
+    {% endif %}
 
+    </div>
     <h5 style="text-align: center">Détails de la sortie</h5>
-        <div class="container d-flex justify-content-around">
-            <div class="col-5 ">
-                <div class="d-flex flex-row bd-highlight mb-2">
-                    <div class="p-2 bd-highlight">
-                        <p class="m-auto">Nom de la sortie : {{ sortie.nom }}</p>
-                        <p class="m-auto">Date et heure de la sortie : {{ sortie.datedebut|date('d-m-Y')}} à {{ sortie.datedebut|date('H:i')}} </p>
-                        <p class="m-auto">Date limite d'inscription : {{ sortie.dateLimiteInscription|date('d-m-Y') }}</p>
-                        <p class="m-auto">Nombre de places : {{ sortie.nbinscriptionsmax }}
-                            {% if sortie.nbinscriptionsmax - sortie.participants|length > 0 %}
+    <div class="container d-flex justify-content-around">
+        <div class="col-5 ">
+            <div class="d-flex flex-row bd-highlight mb-2">
+                <div class="p-2 bd-highlight">
+                    <p class="m-auto">Nom de la sortie : {{ sortie.nom }}</p>
+                    <p class="m-auto">Date et heure de la sortie : {{ sortie.datedebut|date('d-m-Y') }}
+                        à {{ sortie.datedebut|date('H:i') }} </p>
+                    <p class="m-auto">Date limite d'inscription : {{ sortie.dateLimiteInscription|date('d-m-Y') }}</p>
+                    <p class="m-auto">Nombre de places : {{ sortie.nbinscriptionsmax }}
+                        {% if sortie.nbinscriptionsmax - sortie.participants|length > 0 %}
                             ({{ sortie.nbinscriptionsmax - sortie.participants|length }}
-                            {% endif %}
-                                {% if sortie.nbinscriptionsmax - sortie.participants|length > 1 %}
-                                places restantes)
-                                {% endif %}
-                            {% if sortie.nbinscriptionsmax - sortie.participants|length == 1 %}
-                                    place restante)
-                            {% endif %}</p>
-                        <p class="m-auto">Durée : {{ sortie.duree }} {% if sortie.duree == 1 %}heure {% else %}heures {% endif %} </p>
-                        <p class="m-auto">Description : {{ sortie.description }}</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-5 ">
-                <div class="d-flex flex-row bd-highlight mb-2">
-                    <div class="p-2 bd-highlight">
-                        <p class="m-auto">Lieu et adresse de la sortie :</p>
-                        <p class="m-auto">{{ sortie.lieu.nom }}</p>
-                        <p class="m-auto">{{ sortie.lieu.rue }}</p>
-                        <p class="m-auto">{{ sortie.lieu.ville.codePostal }} {{ sortie.lieu.ville.nom }}</p>
-                        <p class="m-auto">Latitude : {{ sortie.lieu.latitute }}</p>
-                        <p class="m-auto">Longitude : {{ sortie.lieu.longitude }}</p>
-                        {% if (app.user == sortie.organisateur and sortie.etat.id < 4) or (is_granted('ROLE_ADMIN') and sortie.etat.id < 4) %}
-                            <p class="d-none d-md-block m-auto"><a href="{{ url('annulersortie', {'id': sortie.id}) }}" class="btn btn-danger">Annuler</a></p>
                         {% endif %}
-                        </div>
-                    </div>
+                        {% if sortie.nbinscriptionsmax - sortie.participants|length > 1 %}
+                            places restantes)
+                        {% endif %}
+                        {% if sortie.nbinscriptionsmax - sortie.participants|length == 1 %}
+                            place restante)
+                        {% endif %}</p>
+                    <p class="m-auto">Durée
+                        : {{ sortie.duree }} {% if sortie.duree == 1 %}heure {% else %}heures {% endif %} </p>
+                    <p class="m-auto">Description : {{ sortie.description }}</p>
                 </div>
             </div>
+        </div>
+
+        <div class="col-5 ">
+            <div class="d-flex flex-row bd-highlight mb-2">
+                <div class="p-2 bd-highlight">
+                    <p class="m-auto">Lieu et adresse de la sortie :</p>
+                    <p class="m-auto">{{ sortie.lieu.nom }}</p>
+                    <p class="m-auto">{{ sortie.lieu.rue }}</p>
+                    <p class="m-auto">{{ sortie.lieu.ville.codePostal }} {{ sortie.lieu.ville.nom }}</p>
+                    <p class="m-auto">Latitude : {{ sortie.lieu.latitute }}</p>
+                    <p class="m-auto">Longitude : {{ sortie.lieu.longitude }}</p>
+                    {% if (app.user == sortie.organisateur and sortie.etat.id < 4) or (is_granted('ROLE_ADMIN') and sortie.etat.id < 4) %}
+                        <div class="d-none d-md-block m-auto">
+                            <button id="btn" type="button" onclick="annuler()" class="btn btn-danger">Annuler</button>
+                            <div id="motif" style="display: none">
+                                <form id="form" action="{{ url("annulersortie") }}" method="post">
+                                    <textarea rows="4" cols="50" name="motif"
+                                              form="form">Motif d'annulation</textarea>
+                                    <button type="submit" name="id" value="{{ sortie.id }}" class="btn btn-danger">
+                                        confirmer
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        function annuler() {
+            let motif = document.getElementById('motif');
+            let btn = document.getElementById('btn');
+            btn.style.display = "none";
+            motif.style.display = "";
+
+        }
+    </script>
 
     <!-- Tableau des participants inscrits à la sortie-->
     <!-- + formule if pour ne l'afficher que s'il y a des participants -->
-    {%  if sortie.participants|length > 0 %}
+    {% if sortie.participants|length > 0 %}
     <div style="overflow-x:auto;">
-    <h5 style="text-align: center">Liste des participants à la sortie</h5>
-    <table style="width: 50%;text-align: left" class="m-auto border table table-hover">
-        <thead>
-        <tr>
-            <th scope="col">Pseudo</th>
-            <th scope="col">Nom</th>
-            <th scope="col">Prénom</th>
-        </tr>
-        </thead>
-        <tbody id="myTable">
-
-        <!-- If pour que le clic du pseudo renvoie sur le profil (affichage et modif) de l'user connecté s'il clique sur son pseudo -->
-        <!-- Ou qu'il renvoie sur le profil (affichage uniquement) s'il clique sur le pseudo d'un autre user -->
-        {% for participants in sortie.participants %}
+        <h5 style="text-align: center">Liste des participants à la sortie</h5>
+        <table style="width: 50%;text-align: left" class="m-auto border table table-hover">
+            <thead>
             <tr>
-                {% if app.user and participants.id == app.user.id %}
-                    <td><a href="{{ path('profil') }}">{{ participants.username }}</a></td>
-                {% else %}
-                    <td><a href="{{ path('profilAutreUser', {'username': participants.username}) }}">{{ participants.username }}</a></td>
-                {% endif %}
+                <th scope="col">Pseudo</th>
+                <th scope="col">Nom</th>
+                <th scope="col">Prénom</th>
+            </tr>
+            </thead>
+            <tbody id="myTable">
+
+            <!-- If pour que le clic du pseudo renvoie sur le profil (affichage et modif) de l'user connecté s'il clique sur son pseudo -->
+            <!-- Ou qu'il renvoie sur le profil (affichage uniquement) s'il clique sur le pseudo d'un autre user -->
+            {% for participants in sortie.participants %}
+                <tr>
+                    {% if app.user and participants.id == app.user.id %}
+                        <td><a href="{{ path('profil') }}">{{ participants.username }}</a></td>
+                    {% else %}
+                        <td>
+                            <a href="{{ path('profilAutreUser', {'username': participants.username}) }}">{{ participants.username }}</a>
+                        </td>
+                    {% endif %}
                     <td>{{ participants.nom }}</td>
                     <td>{{ participants.prenom }}</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-    {% endif %}
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        {% endif %}
 
 {% endblock %}
