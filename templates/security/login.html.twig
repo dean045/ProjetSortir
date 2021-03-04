@@ -3,61 +3,83 @@
 {% block title %}{{ parent() }} | Connexion{% endblock %}
 
 {% block body %}
-<form method="post">
-    {% if error %}
-        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-    {% endif %}
+    <form>
+        <div method="post">
+            {% if error %}
+                <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+            {% endif %}
 
-    {% if app.user %}
-        <div class="mb-3">
-            Vous êtes connecté en tant que {{ app.user.username }}, <a href="{{ path('app_logout') }}">Logout</a>
-        </div>
-    {% endif %}
-    <div class="container">
-        <div class="row text-center">
-            <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                <img style="width: 800px" src='{{ asset('build/images/sortir.160c6155.png') }}' alt="logo" />
-            </div>
-        </div>
-    </div>
+            {% if app.user %}
+                <div class="mb-3">
+                    Vous êtes connecté en tant que {{ app.user.username }}, <a
+                            href="{{ path('app_logout') }}">Logout</a>
+                </div>
+            {% endif %}
 
-    <div class="container">
-        <div class="row text-center">
-            <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                <label for="inputUsername">Identifiant : </label>
-                <input class="size=100" type="text" value="{{ last_username }}" name="username" id="inputUsername" class="form-control" required autofocus>
+            <div class="container">
+                <div class="row text-center">
+                    <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                        <img class="img-fluid" style="width: 800px"
+                             src='{{ asset('build/images/sortir.160c6155.png') }}' alt="logo"/>
+                    </div>
+                </div>
             </div>
-        </div>
-        <div class="row text-center">
-            <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                <label for="inputPassword">Mot de passe : </label>
-                <input class="size=100" type="password" name="password" id="inputPassword" class="form-control" required>
-            </div>
-        </div>
-    </div>
-    <div class="container">
-        <div class="row text-center">
-            <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
-                <div class="checkbox mb-3">
-                    <label><input type="checkbox" id="remember_me" name="_remember_me"> Se souvenir de moi </label>
+            <div class="container">
+                <div class="row">
+                    <div class="container d-flex justify-content-center">
+                        <div class="row col-5">
+                            <div class="d-flex flex-row bd-highlight mb-2">
+                                <div class="p-2 bd-highlight">
+                                    <label class="m-2" for="inputUsername">Identifiant : </label>
+                                    <input class="size=100" type="text" value="{{ last_username }}" name="username"
+                                           id="inputUsername" class="form-control" required autofocus>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row col-5">
+                            <div class="d-flex flex-row bd-highlight mb-2">
+                                <div class="p-2 bd-highlight">
+                                    <label class="m-2" for="inputPassword">Mot de passe : </label>
+                                    <input class="size=100" type="password" name="password" id="inputPassword"
+                                           class="form-control" required>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="container">
-        <div class="row text-center">
-            <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                <h6><a href="{{ url('app_forgot_password_request') }}">Mot de passe oublié</a></h6>
+        <div class="row">
+            <div class="container">
+                <div class="row text-center">
+                    <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                        <button class="btn btn-lg btn-primary" type="submit"> Se connecter</button>
+                    </div>
+                </div>
+            </div>
+            <div class="container d-flex justify-content-center text-center">
+                <div class="col-5 ">
+                    <div class="d-flex flex-column bd-highlight mb-2">
+                        <div class="p-2 bd-highlight">
+                            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+                            <div class="checkbox mb-3">
+                                <label><input type="checkbox" id="remember_me" name="_remember_me"> Se souvenir
+                                    de
+                                    moi
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-5 ">
+                    <div class="d-flex flex-row bd-highlight mb-2">
+                        <div class="p-2 bd-highlight">
+                            <h6><a href="{{ url('app_forgot_password_request') }}">Mot de passe oublié</a></h6>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="container">
-        <div class="row text-center">
-            <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                <button class="btn btn-lg btn-primary" type="submit"> Se connecter </button>
-            </div>
         </div>
-    </div>
-</form>
+    </form>
 {% endblock %}
