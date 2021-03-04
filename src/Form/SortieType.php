@@ -63,8 +63,8 @@ class SortieType extends AbstractType
 */
             ->add('lieu', EntityType::class, [
                 'class' => Lieu::class,
-                'placeholder' => 'Choisir un lieu',
                 'choice_label' => 'nom',
+                'attr'=>['onchange'=>'refresh()']
             ])
             ->add('datedebut', DateTimeType::class, [
                 'label' => 'Date de début de sortie :',
