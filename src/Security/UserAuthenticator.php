@@ -69,7 +69,7 @@ class UserAuthenticator extends AbstractFormLoginAuthenticator implements Passwo
 
         $user = $this->entityManager->getRepository(User::class)->loadUserByUsername( $credentials['username']);
 
-        if($user->getActif() == false)
+        if($user && $user->getActif() == false)
         {
             throw new CustomUserMessageAuthenticationException('Compte désactivé.');
         }
