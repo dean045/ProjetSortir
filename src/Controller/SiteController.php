@@ -26,7 +26,7 @@ class SiteController extends AbstractController
         if ($this->isGranted('ROLE_ADMIN')) {
             $user = $this->getUser();
 
-            $site = $em -> getRepository('App:Site')->findAll();
+            $site = $em -> getRepository('App:Site')->findtrie();
             $site2 = new Site();
             $form = $this->createForm(SiteType::class, $site2);
 
