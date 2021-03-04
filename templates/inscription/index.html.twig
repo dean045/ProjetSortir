@@ -5,29 +5,30 @@
 {% block body %}
 
     {{ form_start(form) }}
-<div class="container d-flex justify-content-around">
-    <div class="col-6 ">
-        <div class="d-flex flex-row bd-highlight mb-3">
-            <div class="p-2 bd-highlight">
-                <p>{{ form_row(form.username) }}</p>
-                <p>{{ form_row(form.mail) }}</p>
-                <p>{{ form_row(form.plainPassword) }}</p>
-                <p>{{ form_row(form.site) }}</p>
+    <center><h1>Inscription d'un stagiaire</h1></center>
+    <div class="container d-flex justify-content-around">
+        <div class="col-6 ">
+            <div class="d-flex flex-row bd-highlight mb-3">
+                <div class="p-2 bd-highlight">
+                    <p>{{ form_row(form.username) }}</p>
+                    <p>{{ form_row(form.mail) }}</p>
+                    <p>{{ form_row(form.plainPassword) }}</p>
+                    <p>{{ form_row(form.site) }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-5 ">
+            <div class="d-flex flex-row bd-highlight mb-3">
+                <div class="p-2 bd-highlight">
+            <p>{{ form_row(form.nom) }}</p>
+            <p>{{ form_row(form.prenom) }}</p>
+            <p>{{ form_row(form.telephone) }}</p>
+            <p>{{ form_row(form.image) }}</p>
+            <button type="submit" class="btn btn-primary text-uppercase btn-block">Inscrire stagiaire</button>
+                </div>
             </div>
         </div>
     </div>
-    <div class="col-5 ">
-        <div class="d-flex flex-row bd-highlight mb-3">
-            <div class="p-2 bd-highlight">
-        <p>{{ form_row(form.nom) }}</p>
-        <p>{{ form_row(form.prenom) }}</p>
-        <p>{{ form_row(form.telephone) }}</p>
-        <p>{{ form_row(form.image) }}</p>
-        <button type="submit" class="btn btn-primary text-uppercase btn-block">Inscrire stagiaire</button>
-            </div>
-        </div>
-    </div>
-</div>
     {{ form_end(form) }}
 
 {% endblock %}

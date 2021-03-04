@@ -37,6 +37,9 @@
                         <p class="m-auto">{{ sortie.lieu.ville.codePostal }} {{ sortie.lieu.ville.nom }}</p>
                         <p class="m-auto">Latitude : {{ sortie.lieu.latitute }}</p>
                         <p class="m-auto">Longitude : {{ sortie.lieu.longitude }}</p>
+                        {% if app.user == sortie.organisateur and sortie.etat.id < 4 %}
+                            <p class="m-auto"><a href="{{ url('annulersortie', {'id': sortie.id}) }}" class="btn btn-danger">Annuler</a></p>
+                        {% endif %}
                         </div>
                     </div>
                 </div>
