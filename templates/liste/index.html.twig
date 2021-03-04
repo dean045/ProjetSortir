@@ -76,7 +76,7 @@
                     <tr>
                         <td class="align-middle">{{ sortie.nom }}</td>
                         <td class="align-middle">{{ sortie.datedebut|date('d/m/Y H:i') }}</td>
-                        <td class="align-middle">{{ sortie.dateLimiteInscription|date('d/m/Y H:i') }}</td>
+                        <td class="align-middle">{{ sortie.dateLimiteInscription|date('d/m/Y') }}</td>
                         <td class="align-middle">{{ sortie.participants|length~"/"~sortie.nbinscriptionsmax }}</td>
                         <td class="align-middle">{{ sortie.etat.libelle }}</td>
                         <td class="align-middle">{% if app.user in sortie.participants %}X{% endif %}</td>
