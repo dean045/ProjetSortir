@@ -50,7 +50,6 @@ class UserAuthenticator extends AbstractFormLoginAuthenticator implements Passwo
         $credentials = [
             'username' => $request->request->get('username'),
             'password' => $request->request->get('password'),
-            'actif' => $request->request->get('actif'),
             'csrf_token' => $request->request->get('_csrf_token'),
         ];
         $request->getSession()->set(
@@ -70,11 +69,14 @@ class UserAuthenticator extends AbstractFormLoginAuthenticator implements Passwo
 
         $user = $this->entityManager->getRepository(User::class)->loadUserByUsername( $credentials['username']);
 
+        if($user->getActif() == false)
+        {
+            throw new CustomUserMessageAuthenticationException('Compte désactivé.');
+        }
         if (!$user) {
             // fail authentication with a custom error
-            throw new CustomUserMessageAuthenticationException('Invalid credentials.');
+            throw new CustomUserMessageAuthenticationException('Identifiant ou mot de passe invalide.');
         }
-
         return $user;
     }
 

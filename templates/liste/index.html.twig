@@ -3,102 +3,106 @@
 {% block title %}{{ parent() }} | Accueil{% endblock %}
 
 {% block body %}
+    <div class="d-none d-md-block">
+        <h5>Filtrer les sorties</h5>
+        <div class="container d-flex justify-content-around border border-info rounded">
+            <div class="col-6 my-2">
+                <div class="row d-flex justify-content-center">
+                    <div class="dropdown">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Site organisateur :
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            {% for site in sites %}
+                                <a class="dropdown-item" href="/{{ site.id }}">{{ site.nom }}</a>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
 
-    <h5>Filtrer les sorties</h5>
-    <div class="container d-flex justify-content-around border border-info rounded">
-        <div class="col-6 my-2">
-            <div class="row d-flex justify-content-center">
-                <div class="dropdown">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
-                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Site organisateur :
-                    </button>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        {% for site in sites %}
-                            <a class="dropdown-item" href="/{{ site.id }}">{{ site.nom }}</a>
-                        {% endfor %}
+                <div class="row  d-flex flex-row justify-content-center my-2">
+                    <label for="myInput" class="mx-2">Le nom de la sortie contient : </label>
+                    <input type="text" id="myInput" onkeyup="tri()" placeholder="rechercher">
+                </div>
+                <div class="row d-flex justify-content-center m-2" style="width: 100%">
+                    <div>
+                        <label for="date-debut">Entre</label>
+                        <input type="date" id="date-debut" onchange="tri()">
+                    </div>
+                    <div>
+                        <label for="date-fin">et</label>
+                        <input type="date" id="date-fin" onchange="tri()">
                     </div>
                 </div>
             </div>
-
-            <div class="row  d-flex flex-row justify-content-center my-2">
-                <label for="myInput" class="mx-2">Le nom de la sortie contient : </label>
-                <input type="text" id="myInput" onkeyup="tri()" placeholder="rechercher">
-            </div>
-            <div class="row d-flex justify-content-center m-2" style="width: 100%">
+            <div class="col-5 my-auto ">
                 <div>
-                    <label for="date-debut">Entre</label>
-                    <input type="date" id="date-debut" onchange="tri()">
+                    <input type="checkbox" checked id="organisateur" onclick="tri()">
+                    <label for="organisateur">Sorties dont je suis l'organisateur/trice</label>
                 </div>
                 <div>
-                    <label for="date-fin">et</label>
-                    <input type="date" id="date-fin" onchange="tri()">
+                    <input type="checkbox" checked id="inscrit" onclick="tri()">
+                    <label for="inscrit">Sorties auxquelles je suis inscrit/e</label>
+                </div>
+                <div>
+                    <input type="checkbox" checked id="non_inscrit" onclick="tri()">
+                    <label for="non_inscrit">Sorties auquelles je ne suis pas inscrit/e</label>
+                </div>
+                <div>
+                    <input type="checkbox" checked id="passe" onclick="tri()">
+                    <label for="passe">Sorties passées</label>
                 </div>
             </div>
         </div>
-        <div class="col-5 my-auto ">
-            <div>
-                <input type="checkbox" checked id="organisateur" onclick="tri()">
-                <label for="organisateur">Sorties dont je suis l'organisateur/trice</label>
-            </div>
-            <div>
-                <input type="checkbox" checked id="inscrit" onclick="tri()">
-                <label for="inscrit">Sorties auxquelles je suis inscrit/e</label>
-            </div>
-            <div>
-                <input type="checkbox" checked id="non_inscrit" onclick="tri()">
-                <label for="non_inscrit">Sorties auquelles je ne suis pas inscrit/e</label>
-            </div>
-            <div>
-                <input type="checkbox" checked id="passe" onclick="tri()">
-                <label for="passe">Sorties passées</label>
-            </div>
-        </div>
-    </div>
 
-    <div style="overflow-x:auto;">
-        <h1 style="text-align: center">Liste des sorties programmées </h1>
-        <table style="width: 100%;text-align: center" class="m-auto border table table-hover">
-            <thead>
-            <tr>
-                <th scope="col" class="align-middle">Nom de la sortie</th>
-                <th scope="col" class="align-middle">Date de la sortie</th>
-                <th scope="col" class="align-middle">Date clôture inscriptions</th>
-                <th scope="col" class="align-middle">Inscrits/Places dispo</th>
-                <th scope="col" class="align-middle">État de la sortie</th>
-                <th scope="col" class="align-middle">Inscrit</th>
-                <th scope="col" class="align-middle">Organisateur</th>
-                <th scope="col" colspan="2" class="align-middle">Actions</th>
-            </tr>
-            </thead>
-            <tbody id="myTable">
-            {% for sortie in liste %}
+        <div style="overflow-x:auto;">
+            <h1 style="text-align: center">Liste des sorties programmées </h1>
+            <table style="width: 100%;text-align: center" class="m-auto border table table-hover">
+                <thead>
                 <tr>
-                    <td class="align-middle">{{ sortie.nom }}</td>
-                    <td class="align-middle">{{ sortie.datedebut|date('d/m/Y H:i') }}</td>
-                    <td class="align-middle">{{ sortie.dateLimiteInscription|date('d/m/Y H:i') }}</td>
-                    <td class="align-middle">{{ sortie.participants|length~"/"~sortie.nbinscriptionsmax }}</td>
-                    <td class="align-middle">{{ sortie.etat.libelle }}</td>
-                    <td class="align-middle">{% if app.user in sortie.participants %}X{% endif %}</td>
-                    <td class="align-middle">{{ sortie.organisateur.username }}</td>
-
-                    {% if app.user in sortie.participants %}
-                        {% if sortie.dateDebut > date() %}
-                            <td class="align-middle"><a href="/sedesister/{{ sortie.id }}">Se désister</a></td>
-                        {% endif %}
-                    {% else  %}
-                        {% if sortie.etat.libelle == "Ouverte" and sortie.participants|length < sortie.nbinscriptionsmax %}
-                            <td class="align-middle"><a href="/participer/{{ sortie.id }}">S'inscrire</a></td>
-                        {% else %}
-                            <td><p>Inscriptions clôturées</p></td>
-                        {% endif %}
-                    {% endif %}
-                    <td><a href="sortie/detailsortie/{{ sortie.id }}">Afficher détails</a></td>
+                    <th scope="col" class="align-middle">Nom de la sortie</th>
+                    <th scope="col" class="align-middle">Date de la sortie</th>
+                    <th scope="col" class="align-middle">Date clôture inscriptions</th>
+                    <th scope="col" class="align-middle">Inscrits/Places dispo</th>
+                    <th scope="col" class="align-middle">État de la sortie</th>
+                    <th scope="col" class="align-middle">Inscrit</th>
+                    <th scope="col" class="align-middle">Organisateur</th>
+                    <th scope="col" colspan="2" class="align-middle">Actions</th>
                 </tr>
-            {% endfor %}
+                </thead>
+                <tbody id="myTable">
+                {% for sortie in liste %}
+                    <tr>
+                        <td class="align-middle">{{ sortie.nom }}</td>
+                        <td class="align-middle">{{ sortie.datedebut|date('d/m/Y H:i') }}</td>
+                        <td class="align-middle">{{ sortie.dateLimiteInscription|date('d/m/Y H:i') }}</td>
+                        <td class="align-middle">{{ sortie.participants|length~"/"~sortie.nbinscriptionsmax }}</td>
+                        <td class="align-middle">{{ sortie.etat.libelle }}</td>
+                        <td class="align-middle">{% if app.user in sortie.participants %}X{% endif %}</td>
+                        <td class="align-middle">{{ sortie.organisateur.username }}</td>
 
-            </tbody>
-        </table>
+                        {% if app.user in sortie.participants %}
+                            {% if sortie.dateDebut > date() %}
+                                <td class="align-middle"><a href="/sedesister/{{ sortie.id }}">Se désister</a></td>
+                            {% endif %}
+                        {% else %}
+                            {% if sortie.etat.libelle == "Ouverte" and sortie.participants|length < sortie.nbinscriptionsmax %}
+                                <td class="align-middle"><a href="/participer/{{ sortie.id }}">S'inscrire</a></td>
+                            {% else %}
+                                <td><p>Inscriptions clôturées</p></td>
+                            {% endif %}
+                        {% endif %}
+                        <td><a href="sortie/detailsortie/{{ sortie.id }}">Afficher détails</a></td>
+                    </tr>
+                {% endfor %}
+
+                </tbody>
+            </table>
+        </div>
+
+
+        <!--- Script tri ---->
         <script>
             function tri() {
                 let table, td, tr, i;
@@ -253,5 +257,27 @@
                 return date1.substring(6) + "-" + date1.substring(3, 5) + "-" + date1.substring(0, 2) + " 00:00:00";
             }
         </script>
+    </div>
+    <!---mobile--------->
+    <div class="d-md-none d-block ">
+        <h1 style="text-align: center">Liste des sorties programmées </h1>
+        <table style="text-align: center" class="m-auto border table table-hover">
+            <thead>
+            <tr>
+                <th scope="col" class="align-middle">Nom de la sortie</th>
+                <th scope="col" class="align-middle">Date de la sortie</th>
+                <th scope="col" class="align-middle">Lieu</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for sortie in liste %}
+                <tr>
+                    <td class="align-middle"><a href="sortie/detailsortie/{{ sortie.id }}">{{ sortie.nom }}</a></td>
+                    <td class="align-middle">{{ sortie.datedebut|date('d/m/Y H:i') }}</td>
+                    <td class="align-middle">{{ sortie.lieu.ville.nom }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
     </div>
 {% endblock %}

@@ -9,7 +9,6 @@
 
     <title>{% block title %}Eni Sortie{% endblock %}</title>
 
-    <link rel="stylesheet" href="css/app.css">
     <link rel="canonical" href="https://getbootstrap.com/docs/4.0/examples/pricing/">
     <link href="https://getbootstrap.com/docs/4.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://getbootstrap.com/docs/4.0/examples/pricing/pricing.css" rel="stylesheet">
@@ -17,11 +16,11 @@
 </head>
 
 <body>
-
-<div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-0 bg-white border-bottom box-shadow">
-    <a class="my-0 mr-md-auto font-weight-normal" href="{{ url('liste') }}"><h5 >Eni-Sortie</h5></a>
+<div class="d-none d-sm-none d-md-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-0 bg-white border-bottom box-shadow">
+    <a class="my-0 mr-md-auto font-weight-normal" href="{{ url('liste') }}"><h5>Eni-Sortie</h5></a>
     <nav class="my-2 my-md-0 mr-md-3 container d-flex flex-row-reverse bd-highlight">
         {% if app.user %}
+            <a class="btn btn-outline-primary" href="/logout">Se déconnecter</a>
             <a class="btn btn-primary mx-2" href="{{ url('profil') }}">Mon profil</a>
             <a class="btn btn-primary mx-2" href="{{ url('creersortie') }}">Ajouter une sortie</a>
             {% if is_granted('ROLE_ADMIN') %}
@@ -37,39 +36,51 @@
                     </div>
                 </div>
             {% endif %}
-
+        {% else %}
+            <a class="btn btn-outline-primary" href="login">Se connecter</a>
         {% endif %}
-
     </nav>
-    {% if app.user %}
-        <a class="btn btn-outline-primary" href="/logout">Se déconnecter</a>
-    {% else %}
-        <a class="btn btn-outline-primary" href="login">Se connecter</a>
-    {% endif %}
+
+</div>
+<!-- Mobile -->
+<div class="d-md-none d-lg-none d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-0 bg-white border-bottom box-shadow">
+
+    <nav class="my-2 my-md-0 mr-md-3 container d-flex justify-content-around bd-highlight">
+        <a class="my-0 mr-md-auto font-weight-normal" href="{{ url('liste') }}"><h5>Eni-Sortie</h5></a>
+        {% if app.user %}
+            <a class="btn btn-outline-primary" href="/logout">Se déconnecter</a>
+        {% else %}
+            <a class="btn btn-outline-primary" href="login">Se connecter</a>
+        {% endif %}
+    </nav>
+
 </div>
 
-<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+<div class="desktop pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
     {% block top %}{% endblock %}
 </div>
 
 <div class="container">
-
-    {# read and display all flash messages #}
-    {% for type, messages in app.flashes %}
-        {% for message in messages %}
-            <div class="alert alert-{{ type }}" role="alert">
-                {{ message }}
-            </div>
+    <div class="desktop">
+        {# read and display all flash messages #}
+        {% for type, messages in app.flashes %}
+            {% for message in messages %}
+                <div class="alert alert-{{ type }}" role="alert">
+                    {{ message }}
+                </div>
+            {% endfor %}
         {% endfor %}
-    {% endfor %}
+    </div>
+
 
     {% block body %}{% endblock %}
 
     <footer class="pt-4 my-md-4 pt-md-2 border-top">
-        <div align="center">Eni-Sortie © 2021 - Brahim Hajji Baba, Justin Renault, Gabriel Manchelin - Tous droits réservés</div>
+        <div align="center">Eni-Sortie © 2021 - Brahim Hajji Baba, Justin Renault, Gabriel Manchelin - Tous droits
+            réservés
+        </div>
     </footer>
 </div>
-
 
 <!-- Bootstrap core JavaScript
 ================================================== -->
@@ -79,6 +90,21 @@
 <script src="https://getbootstrap.com/docs/4.0/dist/js/bootstrap.min.js"></script>
 <script src="https://getbootstrap.com/docs/4.0/assets/js/vendor/holder.min.js"></script>
 <script>
+    /*function responsive(){
+        let screen_width = window.innerWidth
+            || document.documentElement.clientWidth
+            || document.body.clientWidth;
+        console.log(screen_width);
+        let desk = document.getElementsByClassName('desktop');
+        let mobile = document.getElementsByClassName('mobile');
+        if (screen_width <= 640) {
+            desk.style.display = 'none';
+            mobile.style.display = '';
+        } else {
+            desk.style.display = '';
+            mobile.style.display = 'none';
+        }
+    }*/
     Holder.addTheme('thumb', {
         bg: '#55595c',
         fg: '#eceeef',
