@@ -64,6 +64,7 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=10)
+     * @Assert\Regex(pattern="/^[0-9]+$/i", message="Ce champ ne peut contenir que des nombres!")
      */
     private $telephone;
 
