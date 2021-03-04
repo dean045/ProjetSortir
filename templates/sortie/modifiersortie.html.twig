@@ -43,6 +43,7 @@
     </div>
     {{ form_end(SortieForm) }}
     <script>
+
         function refresh() {
             let lieu = document.getElementById('sortie_lieu');
             let ville = document.getElementById('ville');
@@ -52,7 +53,7 @@
             let long = document.getElementById('longitude');
             // Quand une nouvelle <option> est selectionnée
 
-            let index = lieu.selectedIndex + 1;
+            let index = lieu.options[lieu.selectedIndex].text;
             $.ajax({
                 url: "{{ path('lieu') }}",
                 data: {id: index},
